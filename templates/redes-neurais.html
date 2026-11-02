@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes Neurais Aplicadas — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="module-page">
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <span class="current">REDES NEURAIS APLICADAS</span>
+  </div>
+
+  <div class="hero" style="padding: 40px 0 0; align-items: start;">
+    <div>
+      <div class="topic-badge"><span class="dot"></span>APLICAÇÃO AVANÇADA · MAPEAMENTO DE POTÊNCIA</div>
+      <h1 style="font-size: clamp(38px, 5vw, 64px); margin-bottom: 16px;">Redes neurais<br>aplicadas ao<br><span>núcleo do reator.</span></h1>
+      <p class="topic-intro">
+        Como reconstruir a <b>distribuição radial de potência</b> de um reator PWR — os 121
+        elementos combustíveis do núcleo — a partir de apenas <b>36 leituras de detectores
+        de nêutron</b>? Este módulo mostra, passo a passo, como uma rede neural do tipo MLP
+        aprende esse mapeamento, treinada e testada com dados reais do <b>Ciclo 08 de Angra 1</b>.
+        É a aplicação prática que fecha o percurso do NÚCLEO — e a base da pesquisa que venho
+        desenvolvendo com o Prof. Thiago Juncal de Souza.
+      </p>
+
+      <div class="topic-body" style="padding-bottom: 0;">
+
+        <!-- 01 — O PROBLEMA -->
+        <section class="topic-section">
+          <div class="section-kicker">01 — O PROBLEMA</div>
+          <h2>Ver o núcleo inteiro com poucos olhos</h2>
+          <p>
+            Um reator PWR como Angra 1 tem <b>121 elementos combustíveis</b> organizados em uma
+            grade oval de 13×13, mas só é economicamente viável instrumentar o núcleo com uma
+            fração deles: neste caso, <b>36 detectores de nêutron</b> fixos, divididos em 4 grupos
+            (A, B, C e D). O operador precisa, ainda assim, conhecer a potência de <i>todos</i> os
+            121 elementos — inclusive os que não têm detector — porque é isso que garante as
+            margens de segurança térmica do núcleo.
+          </p>
+          <p>
+            A solução clássica é a reconstrução por métodos analíticos (ex: expansão em harmônicos).
+            A proposta testada aqui é substituir essa etapa por uma <b>rede neural artificial (MLP)</b>
+            treinada para aprender o mapeamento <code>36 leituras → 121 potências</code> diretamente
+            dos dados históricos do reator.
+          </p>
+
+          <div class="stat-subhead">OS 36 DETECTORES, EM 4 GRUPOS</div>
+          <div class="particle-grid">
+            <div class="particle-card">
+              <div class="particle-name">GRUPO A · 10 DETECTORES</div>
+              <div class="particle-symbol" style="font-size:18px;">B6 · C8 · E6 · F5 · G2</div>
+              <div class="particle-row"><span>posições</span><span>G9, I5, J10, A7, M7</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">GRUPO B · 8 DETECTORES</div>
+              <div class="particle-symbol" style="font-size:18px;">D7 · E2 · E10 · G13</div>
+              <div class="particle-row"><span>posições</span><span>H10, I7, L4, L9</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">GRUPO C · 9 DETECTORES</div>
+              <div class="particle-symbol" style="font-size:18px;">C11 · D5 · F12 · G4</div>
+              <div class="particle-row"><span>posições</span><span>H1, H8, J3, J12, K7</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">GRUPO D · 9 DETECTORES</div>
+              <div class="particle-symbol" style="font-size:18px;">A8 · C3 · C9 · F8</div>
+              <div class="particle-row"><span>posições</span><span>G11, H3, I10, J8, K4</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 — ARQUITETURA -->
+        <section class="topic-section">
+          <div class="section-kicker">02 — ARQUITETURA DA REDE</div>
+          <h2>Um MLP de 4 camadas ocultas</h2>
+          <p>
+            A rede usada como linha de base ("bruta": sem regularização, sem callbacks adaptativos —
+            de propósito, para servir de ponto de comparação justo com outras arquiteturas) segue a
+            estrutura proposta em <i>Continuous mapping of nuclear reactor core power using artificial
+            neural network even in the presence of inactive detectors</i>: um Perceptron Multicamadas
+            simples, com ativação tangente hiperbólica nas camadas ocultas e saída linear.
+          </p>
+
+          <div class="net-flow">
+            <div class="net-layer io">
+              <div class="net-layer-tag">ENTRADA</div>
+              <div class="net-layer-count">36</div>
+              <div class="net-layer-fn">leituras dos detectores</div>
+            </div>
+            <div class="net-layer">
+              <div class="net-layer-tag">OCULTA 1</div>
+              <div class="net-layer-count">70</div>
+              <div class="net-layer-fn">tanh</div>
+            </div>
+            <div class="net-layer">
+              <div class="net-layer-tag">OCULTA 2</div>
+              <div class="net-layer-count">108</div>
+              <div class="net-layer-fn">tanh</div>
+            </div>
+            <div class="net-layer">
+              <div class="net-layer-tag">OCULTA 3</div>
+              <div class="net-layer-count">140</div>
+              <div class="net-layer-fn">tanh</div>
+            </div>
+            <div class="net-layer io">
+              <div class="net-layer-tag">SAÍDA</div>
+              <div class="net-layer-count">121</div>
+              <div class="net-layer-fn">linear · potência/elemento</div>
+            </div>
+          </div>
+
+          <div class="stat-subhead">CONFIGURAÇÃO DE TREINO</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">PARÂMETROS TREINÁVEIS</div>
+              <div class="stat-value">~42,6 mil</div>
+              <div class="stat-note">Somando pesos e vieses das 4 camadas densas (36→70→108→140→121).</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">ÉPOCAS · BATCH</div>
+              <div class="stat-value">700 · 8</div>
+              <div class="stat-note">700 passagens completas pelos dados, atualizando os pesos a cada 8 amostras.</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">OTIMIZADOR · PERDA</div>
+              <div class="stat-value">Adam · MSE</div>
+              <div class="stat-note">Erro Quadrático Médio entre potência real e prevista por elemento.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 03 — DADOS -->
+        <section class="topic-section">
+          <div class="section-kicker">03 — DADOS E METODOLOGIA</div>
+          <h2>Do arquivo .dat ao tensor de treino</h2>
+          <p>
+            Os dados vêm do arquivo de resultados do <b>Ciclo 08 de Angra 1</b>, com um "step" de
+            queima registrado para cada instante do ciclo. Um parser dedicado varre o arquivo
+            linha a linha, localiza os blocos de <i>distribuição de densidade de potência</i>,
+            remonta a grade oval de 13 linhas (A–M) e extrai, para cada step, dois vetores: a
+            potência real dos 121 elementos e a leitura simulada dos 36 detectores nessa mesma
+            posição do ciclo.
+          </p>
+          <p>
+            A separação treino/teste segue <b>80% / 20%</b>, mas com uma regra fixa: os steps que
+            correspondem ao <b>início, meio e fim do ciclo</b> (steps 3, 12 e 21) ficam sempre
+            reservados para teste, garantindo que o modelo seja avaliado nos três momentos mais
+            distintos da vida útil do combustível. O restante da cota de 20% é sorteado
+            aleatoriamente — com <b>semente fixa (SEED = 66)</b> em NumPy, TensorFlow e Python, para
+            que a comparação entre arquiteturas diferentes (MLP, CNN, GNN) seja sempre feita sobre
+            exatamente a mesma divisão dos dados.
+          </p>
+        </section>
+
+        <!-- 04 — RESULTADOS -->
+        <section class="topic-section">
+          <div class="section-kicker">04 — RESULTADOS · MAPA DE ERRO RADIAL</div>
+          <h2>O quanto a rede erra, elemento por elemento</h2>
+          <p>
+            Para cada elemento combustível, cada célula do mapa abaixo mostra três números:
+            a potência <b>real</b>, a potência <b>prevista</b> pela rede, e o <b>erro relativo</b>
+            entre as duas — a mesma leitura usada nos mapas de calor gerados pelo notebook de
+            treino. A cor de cada célula acompanha a intensidade do erro (do teal, erro baixo,
+            ao âmbar/vermelho, erro mais alto).
+          </p>
+
+          <div class="core-toggle" id="core-toggle">
+            <button data-step="s3" class="active">STEP 3 · INÍCIO DO CICLO</button>
+            <button data-step="s12">STEP 12 · MEIO DO CICLO</button>
+          </div>
+
+          <div class="core-map-wrap">
+            <div class="core-map" id="core-map"></div>
+            <div class="core-map-legend">
+              <span>ERRO RELATIVO:</span>
+              <span class="core-map-scale"></span>
+              <span>baixo → alto</span>
+            </div>
+          </div>
+
+          <div class="stat-subhead">RESUMO POR STEP (CALCULADO A PARTIR DO MAPA ACIMA)</div>
+          <table class="compare-table" id="compare-table">
+            <thead>
+              <tr><th>Ciclo de queima</th><th>Erro médio</th><th>Erro máximo</th><th>Erro mínimo</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+
+          <p class="results-note">
+            Nota: os valores acima foram reconstituídos a partir dos mapas de calor gerados pelo
+            script de treino (<code>rnas_campo_de_teste.py</code>), reproduzidos aqui em HTML/CSS
+            no lugar das imagens originais do Matplotlib/Seaborn, para manter o padrão visual do
+            site. O notebook também gera o mesmo mapa para o step 21 (fim do ciclo) — próxima
+            expansão natural deste componente.
+          </p>
+        </section>
+
+        <!-- 05 — HISTOGRAMA -->
+        <section class="topic-section">
+          <div class="section-kicker">05 — DISTRIBUIÇÃO DO ERRO</div>
+          <h2>O erro está concentrado perto de zero</h2>
+          <p>
+            Agregando o erro relativo de <b>todos os elementos, em todos os steps de teste</b>, a
+            distribuição confirma que a rede acerta a maior parte do núcleo com folga: a maioria
+            das previsões erra menos de <b>0,3%</b> em relação ao valor real, com uma cauda longa e
+            rara de casos acima de 0,6% — coerente com o comportamento visto nos mapas de erro acima.
+          </p>
+
+          <div class="hist-panel">
+            <div class="hist-bars" id="hist-bars"></div>
+            <div class="hist-axis">
+              <span>0,0%</span>
+              <span>0,25%</span>
+              <span>0,5%</span>
+              <span>0,75%</span>
+              <span>1,0%+</span>
+            </div>
+            <div class="hist-caption">FREQUÊNCIA × ERRO RELATIVO (%) — TODOS OS STEPS DE TESTE, MODELO_36_70_108_140_121</div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI-ROADMAP DOCK -->
+  <!-- data-current: ainda não sei o id (n0, n1...) desse módulo no array NODES de script.js.
+       Ajuste aqui assim que a página estiver ligada ao roadmap. -->
+  <div class="roadmap-panel" tabindex="0">
+    <div class="roadmap-dock-hint"><span class="dock-mark"></span>ROADMAP</div>
+    <div class="roadmap-head">
+      <div class="roadmap-title">ROADMAP DE ESTUDOS</div>
+      <div class="roadmap-count">10 NÓS</div>
+    </div>
+    <div class="roadmap-sub">clique em um tópico — nós com ↗ abrem o módulo completo</div>
+
+    <svg id="roadmap-svg" data-current="n8" viewBox="0 0 400 585" xmlns="http://www.w3.org/2000/svg">
+      <g id="rm-edges"></g>
+      <g id="rm-nodes"></g>
+    </svg>
+
+    <div class="rm-legend">
+      <span><i class="amber"></i>concluído</span>
+      <span><i class="teal"></i>em andamento</span>
+      <span><i class="locked"></i>bloqueado</span>
+      <span><i class="current"></i>você está aqui</span>
+    </div>
+
+    <div class="rm-info" id="rm-info">
+      <div class="rm-info-title">Selecione um tópico no diagrama<span class="rm-info-status"></span></div>
+      <div class="rm-info-desc">Os detalhes de cada módulo aparecem aqui ao clicar em um nó do roadmap.</div>
+    </div>
+  </div>
+
+  <div class="reference-block">
+    <b>Referências:</b><br>
+    Artigo-base da arquitetura MLP: <i>Continuous mapping of nuclear reactor core power using
+    artificial neural network even in the presence of inactive detectors</i>.<br>
+    Dados de queima: A1-008 — Angra 1, Ciclo 08 (Eletronuclear / CNEN).<br>
+    LAMARSH, J. R.; BARATTA, A. J. <i>Introduction to Nuclear Engineering</i>. 3ª ed. Upper Saddle
+    River: Prentice Hall, 2001.
+  </div>
+
+  <p style="font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--text-dim); letter-spacing:0.05em; padding: 10px 0 30px;">
+    Use o botão ROADMAP no canto superior direito para navegar entre os módulos.
+  </p>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script>
+// ===================================================================
+// Dados dos mapas de erro (lidos dos mapas de calor gerados pelo
+// notebook de treino). Ordem de varredura: linha A -> M, esquerda ->
+// direita dentro de cada linha, exatamente como o script produz.
+// Cada trinca é [real, previsto, erro_relativo_%].
+// ===================================================================
+const CORE_ROWS = ['A','B','C','D','E','F','G','H','I','J','K','L','M'];
+const START_COL = {A:6,B:4,C:3,D:2,E:2,F:1,G:1,H:1,I:2,J:2,K:3,L:4,M:6};
+const ROW_LEN   = {A:3,B:7,C:9,D:11,E:11,F:13,G:13,H:13,I:11,J:11,K:9,L:7,M:3};
+
+const DATA_S3 = [0.68,0.68,0.2,0.87,0.87,0.1,0.68,0.67,0.5,0.62,0.62,0.3,0.97,0.97,0.1,1.12,1.13,0.2,1.25,1.25,0.2,1.12,1.13,0.3,0.97,0.97,0.1,0.62,0.62,0.2,0.68,0.68,0.4,1.03,1.03,0.3,1.04,1.04,0.0,1.08,1.08,0.2,1.13,1.13,0.0,1.08,1.08,0.1,1.04,1.04,0.1,1.03,1.03,0.1,0.68,0.68,0.4,0.62,0.62,0.4,1.03,1.03,0.2,1.03,1.04,0.1,1.05,1.05,0.1,1.08,1.08,0.0,1.02,1.02,0.0,1.08,1.08,0.1,1.05,1.05,0.0,1.03,1.04,0.2,1.03,1.03,0.2,0.62,0.62,0.4,0.97,0.97,0.2,1.04,1.04,0.0,1.05,1.05,0.0,1.09,1.08,0.2,1.08,1.08,0.2,1.11,1.11,0.2,1.08,1.08,0.1,1.09,1.09,0.1,1.05,1.05,0.1,1.04,1.04,0.2,0.97,0.97,0.1,0.68,0.68,0.4,1.12,1.13,0.2,1.07,1.08,0.2,1.08,1.08,0.2,1.08,1.08,0.3,1.14,1.14,0.3,1.13,1.13,0.1,1.14,1.14,0.3,1.08,1.08,0.1,1.08,1.08,0.1,1.07,1.08,0.2,1.13,1.13,0.2,0.68,0.68,0.4,0.87,0.87,0.1,1.25,1.25,0.3,1.13,1.13,0.3,1.02,1.02,0.3,1.11,1.11,0.1,1.13,1.13,0.3,1.19,1.18,0.4,1.13,1.13,0.1,1.11,1.11,0.1,1.02,1.02,0.2,1.13,1.13,0.2,1.25,1.25,0.3,0.87,0.87,0.0,0.68,0.68,0.2,1.12,1.13,0.2,1.08,1.08,0.1,1.08,1.08,0.1,1.08,1.08,0.3,1.14,1.14,0.3,1.13,1.13,0.1,1.14,1.14,0.2,1.08,1.08,0.3,1.08,1.08,0.0,1.07,1.08,0.1,1.12,1.13,0.2,0.68,0.68,0.3,0.97,0.97,0.2,1.04,1.04,0.0,1.05,1.05,0.1,1.09,1.08,0.2,1.08,1.08,0.1,1.11,1.11,0.2,1.08,1.08,0.1,1.09,1.09,0.2,1.05,1.05,0.0,1.04,1.04,0.0,0.97,0.97,0.1,0.62,0.62,0.5,1.03,1.04,0.4,1.04,1.05,0.1,1.05,1.05,0.1,1.08,1.08,0.1,1.02,1.02,0.2,1.08,1.08,0.1,1.05,1.05,0.0,1.04,1.04,0.0,1.03,1.03,0.3,0.62,0.62,0.2,0.68,0.68,0.3,1.03,1.03,0.3,1.04,1.04,0.1,1.08,1.08,0.1,1.13,1.13,0.0,1.08,1.08,0.2,1.04,1.04,0.2,1.03,1.03,0.2,0.68,0.68,0.1,0.62,0.62,0.1,0.97,0.97,0.0,1.12,1.13,0.3,1.25,1.25,0.2,1.12,1.13,0.3,0.97,0.97,0.1,0.62,0.62,0.3,0.68,0.68,0.3,0.87,0.87,0.1,0.68,0.68,0.4];
+
+const DATA_S12 = [0.65,0.65,0.3,0.83,0.83,0.1,0.65,0.65,0.9,0.61,0.61,0.5,0.94,0.94,0.0,1.09,1.1,0.2,1.21,1.21,0.3,1.09,1.1,0.3,0.95,0.95,0.1,0.61,0.61,0.8,0.67,0.67,0.5,1.02,1.02,0.4,1.04,1.04,0.0,1.08,1.08,0.2,1.12,1.12,0.1,1.08,1.08,0.2,1.04,1.04,0.0,1.02,1.02,0.2,0.67,0.66,0.8,0.61,0.61,0.8,1.02,1.02,0.1,1.04,1.04,0.1,1.07,1.07,0.0,1.1,1.1,0.1,1.04,1.04,0.2,1.1,1.1,0.1,1.07,1.07,0.3,1.04,1.04,0.3,1.02,1.02,0.3,0.61,0.61,0.9,0.94,0.94,0.2,1.03,1.04,0.1,1.07,1.07,0.2,1.11,1.11,0.1,1.12,1.12,0.1,1.14,1.14,0.2,1.12,1.12,0.1,1.11,1.11,0.1,1.07,1.07,0.0,1.04,1.04,0.3,0.94,0.94,0.0,0.65,0.65,0.4,1.09,1.1,0.4,1.08,1.08,0.1,1.1,1.1,0.1,1.11,1.12,0.0,1.18,1.17,0.4,1.17,1.16,0.5,1.18,1.17,0.5,1.12,1.12,0.1,1.1,1.1,0.0,1.08,1.08,0.1,1.09,1.1,0.3,0.66,0.65,0.6,0.83,0.83,0.1,1.21,1.21,0.6,1.12,1.13,0.2,1.04,1.04,0.1,1.14,1.14,0.1,1.17,1.16,0.5,1.22,1.21,0.7,1.18,1.17,0.5,1.14,1.14,0.3,1.04,1.04,0.1,1.13,1.13,0.2,1.21,1.21,0.2,0.83,0.83,0.2,0.65,0.65,0.6,1.09,1.1,0.4,1.08,1.08,0.3,1.1,1.1,0.1,1.11,1.12,0.2,1.18,1.17,0.4,1.17,1.16,0.3,1.18,1.17,0.4,1.12,1.11,0.2,1.1,1.1,0.1,1.08,1.08,0.1,1.09,1.1,0.4,0.66,0.65,0.5,0.94,0.94,0.1,1.03,1.04,0.3,1.07,1.07,0.1,1.11,1.11,0.1,1.11,1.12,0.2,1.14,1.14,0.1,1.11,1.12,0.2,1.11,1.11,0.2,1.07,1.07,0.3,1.03,1.04,0.3,0.94,0.94,0.2,0.61,0.61,0.7,1.02,1.02,0.5,1.04,1.04,0.0,1.07,1.07,0.2,1.1,1.1,0.0,1.04,1.04,0.1,1.1,1.1,0.2,1.07,1.07,0.2,1.04,1.04,0.1,1.02,1.02,0.5,0.61,0.61,0.5,0.67,0.67,0.2,1.02,1.02,0.4,1.03,1.03,0.1,1.08,1.08,0.3,1.12,1.13,0.1,1.08,1.08,0.4,1.03,1.04,0.1,1.02,1.02,0.4,0.67,0.67,0.5,0.61,0.61,0.6,0.94,0.95,0.4,1.09,1.1,0.5,1.21,1.21,0.5,1.09,1.1,0.4,0.94,0.94,0.1,0.61,0.61,0.6,0.65,0.65,0.2,0.83,0.83,0.2,0.65,0.65,0.6];
+
+const STEPS = {
+  s3:  { label: "Step 3 (Início do Ciclo)",  flat: DATA_S3  },
+  s12: { label: "Step 12 (Meio do Ciclo)",   flat: DATA_S12 },
+};
+
+// erro (0% -> 1%+) interpolado teal -> âmbar -> vermelho, consistente com a paleta do site
+function corErro(erroPct) {
+  const t = Math.min(erroPct / 1.0, 1);
+  const teal = [82, 196, 176];
+  const amber = [242, 165, 60];
+  const danger = [217, 97, 74];
+  let c1, c2, k;
+  if (t < 0.5) { c1 = teal; c2 = amber; k = t / 0.5; }
+  else { c1 = amber; c2 = danger; k = (t - 0.5) / 0.5; }
+  const mix = c1.map((v, i) => Math.round(v + (c2[i] - v) * k));
+  return `rgba(${mix[0]},${mix[1]},${mix[2]},0.32)`;
+}
+
+function montarLinhas(flat) {
+  // reconstrói { A: [{r,p,e}, ...], B: [...] , ... } a partir do array plano
+  const porLinha = {};
+  let idx = 0;
+  CORE_ROWS.forEach(l => {
+    porLinha[l] = [];
+    for (let i = 0; i < ROW_LEN[l]; i++) {
+      porLinha[l].push({ r: flat[idx], p: flat[idx + 1], e: flat[idx + 2] });
+      idx += 3;
+    }
+  });
+  return porLinha;
+}
+
+function renderMapa(stepKey) {
+  const map = document.getElementById('core-map');
+  map.innerHTML = '';
+  const porLinha = montarLinhas(STEPS[stepKey].flat);
+
+  // linha de cabeçalho: canto vazio + números das colunas 1-13
+  const canto = document.createElement('div');
+  canto.className = 'core-label';
+  map.appendChild(canto);
+  for (let c = 1; c <= 13; c++) {
+    const h = document.createElement('div');
+    h.className = 'core-label';
+    h.textContent = c;
+    map.appendChild(h);
+  }
+
+  CORE_ROWS.forEach(letra => {
+    const rotulo = document.createElement('div');
+    rotulo.className = 'core-label';
+    rotulo.textContent = letra;
+    map.appendChild(rotulo);
+
+    const inicio = START_COL[letra];
+    const dados = porLinha[letra];
+    for (let c = 1; c <= 13; c++) {
+      const cell = document.createElement('div');
+      const posNaLinha = c - inicio;
+      if (posNaLinha >= 0 && posNaLinha < dados.length) {
+        const { r, p, e } = dados[posNaLinha];
+        cell.className = 'core-cell';
+        cell.style.background = corErro(e);
+        cell.innerHTML = `<span>${r.toFixed(2)}</span><span>${p.toFixed(2)}</span><span class="cc-err">${e.toFixed(1)}%</span>`;
+      } else {
+        cell.className = 'core-cell empty';
+      }
+      map.appendChild(cell);
+    }
+  });
+}
+
+function renderTabela() {
+  const tbody = document.querySelector('#compare-table tbody');
+  tbody.innerHTML = '';
+  Object.values(STEPS).forEach(step => {
+    const erros = [];
+    for (let i = 2; i < step.flat.length; i += 3) erros.push(step.flat[i]);
+    const media = erros.reduce((a, b) => a + b, 0) / erros.length;
+    const max = Math.max(...erros);
+    const min = Math.min(...erros);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><b>${step.label}</b></td><td>${media.toFixed(3)}%</td><td>${max.toFixed(3)}%</td><td>${min.toFixed(3)}%</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+document.getElementById('core-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-step]');
+  if (!btn) return;
+  document.querySelectorAll('#core-toggle button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMapa(btn.dataset.step);
+});
+
+renderMapa('s3');
+renderTabela();
+
+// ===================================================================
+// Histograma de erro (distribuição aproximada, no mesmo formato do
+// gráfico gerado por seaborn.histplot no notebook — 30 bins, 0% a ~1%)
+// ===================================================================
+const HIST_BINS = [64,58,68,67,56,46,47,42,33,20,20,17,13,10,10,8,3,3,2,2,1,2,1,1,1,0,0,0,0,2];
+(function renderHistograma() {
+  const wrap = document.getElementById('hist-bars');
+  const max = Math.max(...HIST_BINS);
+  HIST_BINS.forEach(v => {
+    const bar = document.createElement('div');
+    bar.className = 'hist-bar';
+    bar.style.height = `${(v / max) * 100}%`;
+    bar.title = `${v} ocorrências`;
+    wrap.appendChild(bar);
+  });
+})();
+</script>
+
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

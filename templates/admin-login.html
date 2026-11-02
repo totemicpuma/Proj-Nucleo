@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Acesso administrativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      ÁREA RESTRITA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Acesso administrativo</span>
+  </div>
+
+  <div class="form-header">
+    <h1>Acesso administrativo</h1>
+    <p>Entre com as credenciais de moderação para gerenciar colaboradores e sugestões.</p>
+  </div>
+
+  <form class="form-panel" id="admin-login-form" novalidate>
+    <div class="form-success" id="form-success"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">E-mail <span class="req">*</span></label>
+      <input class="form-input" type="email" id="email" name="email" placeholder="admin@nucleo.localdomain" required value="admin@nucleo.localdomain">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="senha">Senha <span class="req">*</span></label>
+      <input class="form-input" type="password" id="senha" name="senha" placeholder="senha administrativa" required value="nucleo-admin-123">
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Acessar painel →</button>
+      <a href="login.html" class="btn-ghost">Entrar como colaborador</a>
+    </div>
+  </form>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+</div>
+
+<script>
+  const form = document.getElementById("admin-login-form");
+  const success = document.getElementById("form-success");
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!this.checkValidity()){ this.reportValidity(); return; }
+
+    const btn = this.querySelector(".btn-primary");
+    btn.disabled = true;
+    btn.textContent = "Autenticando…";
+
+    try {
+      const resp = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: document.getElementById("email").value.trim().toLowerCase(),
+          senha: document.getElementById("senha").value,
+        }),
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        
+        // Bloqueia no frontend se o usuário não for admin
+        if (!data.colaborador || !data.colaborador.is_admin) {
+          success.textContent = "✗ Essa conta não tem permissão de administrador.";
+          success.style.borderColor = "var(--danger)";
+          success.style.background = "var(--danger-dim)";
+          success.classList.add("show");
+          btn.disabled = false;
+          btn.textContent = "Acessar painel →";
+          return;
+        }
+        
+        // Usa o nosso helper de sessão atualizado
+        NucleoAuth.setSession(data.token, data.colaborador);
+        window.location.href = "/admin/dashboard";
+        
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        success.textContent = "✗ " + (err.detail || "Não foi possível autenticar.");
+        success.style.borderColor = "var(--danger)";
+        success.style.background = "var(--danger-dim)";
+        success.classList.add("show");
+        btn.disabled = false;
+        btn.textContent = "Acessar painel →";
+      }
+    } catch (_) {
+      success.textContent = "✗ Servidor indisponível. Verifique se o backend está rodando.";
+      success.style.borderColor = "var(--danger)";
+      success.style.background = "var(--danger-dim)";
+      success.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = "Acessar painel →";
+    }
+  });
+</script>
+</body>
+</html>

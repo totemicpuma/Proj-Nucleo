@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Meu Perfil</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      MEU PERFIL
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Meu perfil</span>
+  </div>
+
+  <!-- ===== CABEÇALHO DO PERFIL ===== -->
+  <div class="profile-hero" id="profile-hero">
+    <div class="profile-avatar" id="profile-avatar">—</div>
+    <div class="profile-info">
+      <div class="profile-name" id="profile-name">
+        Carregando…
+        <span class="badge" id="profile-verif" hidden></span>
+      </div>
+      <div class="profile-meta" id="profile-meta"></div>
+    </div>
+    <button class="mini-btn bad" id="logout-btn">Sair</button>
+  </div>
+
+  <div class="profile-grid">
+
+    <!-- ===== MUDAR NOME ===== -->
+    <section class="form-panel profile-card">
+      <div class="section-kicker">DADOS</div>
+      <h2 class="profile-card-title">Nome de exibição</h2>
+      <div class="form-success" id="nome-msg"></div>
+      <form id="nome-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="nome">Nome <span class="req">*</span></label>
+          <input class="form-input" type="text" id="nome" name="nome" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Salvar nome</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== MUDAR SENHA ===== -->
+    <section class="form-panel profile-card">
+      <div class="section-kicker">SEGURANÇA</div>
+      <h2 class="profile-card-title">Alterar senha</h2>
+      <div class="form-success" id="senha-msg"></div>
+      <form id="senha-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="senha_atual">Senha atual <span class="req">*</span></label>
+          <input class="form-input" type="password" id="senha_atual" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="senha_nova">Nova senha <span class="req">*</span></label>
+          <input class="form-input" type="password" id="senha_nova" minlength="6" placeholder="mínimo 6 caracteres" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Alterar senha</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== VERIFICAÇÃO DE CONTA ===== -->
+    <section class="form-panel profile-card profile-card-wide">
+      <div class="section-kicker">VERIFICAÇÃO DE CONTA</div>
+      <h2 class="profile-card-title">Comprovação acadêmica</h2>
+      <p class="profile-p" id="verif-status">—</p>
+      <div class="form-success" id="verif-msg"></div>
+      <form id="verif-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="comprovante">Enviar documento <span class="req">*</span></label>
+          <input class="form-input" type="file" id="comprovante" accept=".pdf,.png,.jpg,.jpeg" required>
+          <div class="form-hint">
+            Estudantes: atestado de matrícula. Professores/pesquisadores: diploma.
+            PDF ou imagem, até 5 MB. Após o envio, a equipe analisa e verifica sua conta.
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Enviar para verificação</button>
+        </div>
+      </form>
+    </section>
+
+  </div>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/perfil.js') }}"></script>
+</body>
+</html>

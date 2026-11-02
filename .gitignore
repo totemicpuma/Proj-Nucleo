@@ -1,0 +1,18 @@
+# Banco de dados local e instancias
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Arquivos enviados pelos usuarios (comprovantes)
+uploads/*
+!uploads/.gitkeep
+
+# Python / Ambiente virtual
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env

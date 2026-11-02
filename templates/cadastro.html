@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Cadastro de Colaborador</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      CADASTRO DE COLABORADOR
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Cadastro de colaborador</span>
+  </div>
+
+  <div class="form-header">
+    <h1>Torne-se um colaborador</h1>
+    <p>
+      Faça parte da comunidade de estudo do NÚCLEO. Colaboradores podem sugerir
+      tópicos, enviar materiais e ajudar a construir um percurso de aprendizado
+      cada vez mais completo sobre energia nuclear.
+    </p>
+  </div>
+
+  <form class="form-panel" id="cadastro-form" novalidate>
+
+    <div class="form-success" id="form-success">
+      ✓ Cadastro recebido! Assim que o banco de dados estiver conectado, sua
+      solicitação de colaborador será analisada. Obrigado por contribuir.
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="nome">Nome completo <span class="req">*</span></label>
+      <input class="form-input" type="text" id="nome" name="nome" placeholder="Seu nome" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">E-mail <span class="req">*</span></label>
+      <input class="form-input" type="email" id="email" name="email" placeholder="voce@exemplo.com" required>
+      <div class="form-hint">Usaremos para contato e para o seu login.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="senha">Senha <span class="req">*</span></label>
+      <input class="form-input" type="password" id="senha" name="senha" placeholder="mínimo 6 caracteres" minlength="6" required>
+      <div class="form-hint">Use ao menos 6 caracteres.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="ocupacao">Ocupação <span class="req">*</span></label>
+      <select class="form-select" id="ocupacao" name="ocupacao" required>
+        <option value="" disabled selected>Selecione uma opção…</option>
+        <option value="estudante">Estudante</option>
+        <option value="professor">Professor(a) / Docente</option>
+        <option value="pesquisador">Pesquisador(a)</option>
+        <option value="engenheiro">Engenheiro(a)</option>
+        <option value="profissional">Profissional da área</option>
+        <option value="entusiasta">Entusiasta / Autodidata</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="lattes_url">Currículo Lattes</label>
+      <input class="form-input" type="url" id="lattes_url" name="lattes_url" placeholder="http://lattes.cnpq.br/...">
+      <div class="form-hint">Opcional. Link do seu Currículo Lattes, se tiver.</div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="comprovante">Comprovação acadêmica</label>
+      <input class="form-input" type="file" id="comprovante" name="comprovante" accept=".pdf,.png,.jpg,.jpeg">
+      <div class="form-hint">
+        Estudantes: atestado de matrícula. Professores/pesquisadores: diploma.
+        PDF ou imagem, até 5 MB. Opcional nesta fase de teste.
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Enviar cadastro →</button>
+      <a href="index.html" class="btn-ghost">Voltar ao início</a>
+    </div>
+
+    <div class="form-note">
+      NOTA: Ao enviar, os dados são gravados no banco com status "pendente"
+      (aguardando aprovação). Rode o backend (FastAPI) para que o envio funcione.
+    </div>
+
+  </form>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script>
+  const form = document.getElementById("cadastro-form");
+  const success = document.getElementById("form-success");
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!this.checkValidity()){
+      this.reportValidity();
+      return;
+    }
+
+    const btn = this.querySelector(".btn-primary");
+    btn.disabled = true;
+    btn.textContent = "Enviando…";
+
+    // multipart/form-data (por causa do upload de arquivo)
+    const data = new FormData(form);
+
+    try {
+      const resp = await fetch("/api/colaboradores", { method: "POST", body: data });
+
+      if (resp.ok) {
+        // login automático após o cadastro
+        const senha = document.getElementById("senha").value;
+        const email = document.getElementById("email").value;
+        try {
+          const lg = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha }),
+          });
+          if (lg.ok) {
+            const { token } = await lg.json();
+            localStorage.setItem("nucleo_token", token);
+            window.location.href = "perfil.html";
+            return;
+          }
+        } catch (_) { /* cai no fluxo abaixo */ }
+
+        success.textContent = "✓ Cadastro recebido! Faça login para acessar seu perfil.";
+        success.classList.add("show");
+        form.reset();
+        success.scrollIntoView({ behavior:"smooth", block:"center" });
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        success.textContent = "✗ " + (err.detail || "Não foi possível enviar. Tente novamente.");
+        success.style.borderColor = "var(--danger)";
+        success.style.background = "var(--danger-dim)";
+        success.classList.add("show");
+        btn.disabled = false;
+        btn.textContent = "Enviar cadastro →";
+      }
+    } catch (_) {
+      success.textContent = "✗ Servidor indisponível. Verifique se o backend (FastAPI) está rodando.";
+      success.style.borderColor = "var(--danger)";
+      success.style.background = "var(--danger-dim)";
+      success.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = "Enviar cadastro →";
+    }
+  });
+</script>
+</body>
+</html>

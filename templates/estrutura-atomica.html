@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estrutura Atômica — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">>
+<style>
+  /* orbit animation, scoped to this page only */
+  .orbit { transform-origin: 210px 210px; animation: spin 14s linear infinite; }
+  .orbit.reverse { animation-direction: reverse; animation-duration: 20s; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .orbit { animation: none; } }
+</style>
+</head>
+<body class="module-page">
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <span class="current">ESTRUTURA ATÔMICA</span>
+  </div>
+
+  <!-- INÍCIO DA GRID DE DUAS COLUNAS (Hero) -->
+  <div class="hero" style="padding: 40px 0 0; align-items: start;">
+    
+    <!-- COLUNA DA ESQUERDA -->
+    <div>
+      <div class="topic-badge"><span class="dot"></span>MÓDULO 02 · CONCLUÍDO</div>
+      <h1 style="font-size: clamp(38px, 5vw, 64px); margin-bottom: 16px;">Estrutura<br>Atômica</h1>
+      <p class="topic-intro">
+        Antes de falar em fissão, reator ou potência, é preciso entender do que a matéria é feita.
+        Este módulo cobre as <b>partículas fundamentais</b>, a <b>anatomia do átomo</b> e a
+        <b>notação nuclear</b> usada em todo o resto do roadmap — a base direta para o próximo
+        tópico, radioatividade.
+      </p>
+
+      <!-- SEÇÃO 1 -->
+      <div class="topic-body" style="padding-bottom: 0;">
+        <section class="topic-section">
+          <div class="section-kicker">01 — PARTÍCULAS FUNDAMENTAIS</div>
+          <h2>Do que o átomo é feito</h2>
+          <p>
+            Para os fins da engenharia nuclear, um pequeno conjunto de partículas é suficiente para
+            descrever tudo o que acontece dentro de um átomo e de um núcleo. Cada uma tem massa,
+            carga e comportamento característicos, resumidos abaixo.
+          </p>
+
+          <div class="particle-grid">
+            <div class="particle-card">
+              <div class="particle-name">PARTÍCULA</div>
+              <div class="particle-symbol">e⁻</div>
+              <div class="particle-row"><span>Nome</span><span>Elétron</span></div>
+              <div class="particle-row"><span>Carga</span><span>−1,602×10⁻¹⁹ C</span></div>
+              <div class="particle-row"><span>Massa</span><span>9,109×10⁻³¹ kg</span></div>
+              <div class="particle-row"><span>Local</span><span>Eletrosfera</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">PARTÍCULA</div>
+              <div class="particle-symbol">p⁺</div>
+              <div class="particle-row"><span>Nome</span><span>Próton</span></div>
+              <div class="particle-row"><span>Carga</span><span>+1,602×10⁻¹⁹ C</span></div>
+              <div class="particle-row"><span>Massa</span><span>1,673×10⁻²⁷ kg</span></div>
+              <div class="particle-row"><span>Local</span><span>Núcleo</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">PARTÍCULA</div>
+              <div class="particle-symbol">n⁰</div>
+              <div class="particle-row"><span>Nome</span><span>Nêutron</span></div>
+              <div class="particle-row"><span>Carga</span><span>0 (neutro)</span></div>
+              <div class="particle-row"><span>Massa</span><span>1,675×10⁻²⁷ kg</span></div>
+              <div class="particle-row"><span>Local</span><span>Núcleo</span></div>
+            </div>
+            <div class="particle-card">
+              <div class="particle-name">PARTÍCULA</div>
+              <div class="particle-symbol">γ</div>
+              <div class="particle-row"><span>Nome</span><span>Fóton</span></div>
+              <div class="particle-row"><span>Carga</span><span>0</span></div>
+              <div class="particle-row"><span>Massa de repouso</span><span>0</span></div>
+              <div class="particle-row"><span>Comportamento</span><span>Onda / partícula</span></div>
+            </div>
+          </div>
+
+          <p style="margin-top:20px;">
+            O nêutron livre não é uma partícula estável: fora do núcleo, decai em um próton, um
+            elétron e um antineutrino em cerca de 12 minutos, em média. Dentro de um núcleo estável,
+            porém, essa transformação é bloqueada pela energia de ligação — assunto do módulo de
+            radioatividade.
+          </p>
+        </section>
+      </div>
+    </div>
+
+  </div>
+  <!-- FIM DA GRID DE DUAS COLUNAS -->
+
+  <!-- MINI-ROADMAP DOCK (canto superior direito; hover expande) -->
+  <div class="roadmap-panel" tabindex="0">
+    <div class="roadmap-dock-hint"><span class="dock-mark"></span>ROADMAP</div>
+    <div class="roadmap-head">
+        <div class="roadmap-title">ROADMAP DE ESTUDOS</div>
+        <div class="roadmap-count">10 NÓS</div>
+      </div>
+      <div class="roadmap-sub">clique em um tópico — nós com ↗ abrem o módulo completo</div>
+
+      <svg id="roadmap-svg" data-current="n1" viewBox="0 0 400 585" xmlns="http://www.w3.org/2000/svg">
+        <g id="rm-edges"></g>
+        <g id="rm-nodes"></g>
+      </svg>
+
+      <div class="rm-legend">
+        <span><i class="amber"></i>concluído</span>
+        <span><i class="teal"></i>em andamento</span>
+        <span><i class="locked"></i>bloqueado</span>
+        <span><i class="current"></i>você está aqui</span>
+      </div>
+
+      <div class="rm-info" id="rm-info">
+        <div class="rm-info-title">Selecione um tópico no diagrama<span class="rm-info-status"></span></div>
+        <div class="rm-info-desc">Os detalhes de cada módulo aparecem aqui ao clicar em um nó do roadmap.</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- FIM DA GRID DE DUAS COLUNAS -->
+
+  <!-- CONTEÚDO COMPLEMENTAR PARA O QUIZ -->
+  <div class="topic-body" style="padding-top: 20px;">
+
+    <section class="topic-section">
+      <div class="section-kicker">02 — ANATOMIA DO ÁTOMO</div>
+      <h2>Núcleo denso, eletrosfera difusa</h2>
+      <p>
+        Um átomo é formado por um <b>núcleo</b> pequeno e extremamente denso — onde ficam prótons
+        e nêutrons — cercado por uma nuvem de elétrons em movimento rápido, a <b>eletrosfera</b>.
+        Praticamente toda a massa fica no núcleo; o volume do átomo é definido pela eletrosfera.
+      </p>
+      <p>
+        O número de prótons é o <b>número atômico (Z)</b>. Em átomo neutro, o número de elétrons
+        também é Z, e são eles que definem o comportamento químico do átomo.
+      </p>
+    </section>
+
+    <section class="topic-section">
+      <div class="section-kicker">03 — NOTAÇÃO NUCLEAR</div>
+      <h2>Como se escreve um núcleo</h2>
+      <p>
+        Cada nuclídeo é identificado por <b>Z</b> (prótons), <b>N</b> (nêutrons) e
+        <b>A = Z + N</b> (número de massa). Essa notação aparece ao descrever combustível,
+        reações e radioisótopos.
+      </p>
+    </section>
+
+    <section class="topic-section">
+      <div class="section-kicker">04 — MODELOS E REGRAS</div>
+      <h2>Do “pudim de passas” aos orbitais</h2>
+      <p>
+        O modelo de <b>Thomson</b> imaginava elétrons incrustados em uma esfera positiva.
+        <b>Rutherford</b> mostrou, com a folha de ouro, que o átomo tem um núcleo denso.
+        <b>Bohr</b> introduziu órbitas quantizadas; <b>Schrödinger</b> substituiu órbitas fixas
+        por <b>orbitais</b>, regiões de maior probabilidade de encontrar elétrons.
+      </p>
+      <p>
+        Regras práticas: <b>Pauli</b> impede dois elétrons com os mesmos 4 números quânticos;
+        <b>Hund</b> manda Orbitais degenerados receberem um elétron cada antes de emparelhar;
+        <b>2n²</b> dá a capacidade por camada; <b>spin</b> é considerado no emparelhamento.
+      </p>
+      <p>
+        Nêutron livre decai em ~12 minutos; próton é visto como livremente estável.
+        Experimento de Rutherford (folha de ouro) → núcleo; Thomson (raios catódicos) →
+        “pudim de passas”; Chadwick → nêutron; Schrödinger → orbitais/probabilidade.
+      </p>
+    </section>
+
+    <section class="topic-section">
+      <div class="section-kicker">05 — TIPOS DE RADIAÇÃO E RAIOS X</div>
+      <h2>Além do núcleo: raios X e desintegração</h2>
+      <p>
+        Núcleos instáveis liberam partículas ou ondas: <b>alfa</b>, <b>beta</b> e <b>gama</b>.
+        Quando elétrons acelerados batem em um alvo metálico, emitem-se <b>raios X</b> por
+        <b>radiação de frenagem (bremsstrahlung)</b>, característica de tubos de raios X.
+      </p>
+    </section>
+
+    <section class="topic-section">
+      <div class="section-kicker">06 — FAMÍLIAS DE NUCLÍDEOS</div>
+      <h2>Isótopos, isóbaros e isótonos</h2>
+      <p>
+        <b>Isótopos</b>: mesmo Z, massas diferentes (ex: C-12, C-14).
+        <b>Isóbaros</b>: mesmo A, Z diferente (ex: C-14 e N-14).
+        <b>Isótonos</b>: mesmo N, Z/A diferentes.
+      </p>
+    </section>
+
+  </div>
+
+  <!-- CHAMADA PARA O QUIZ ADICIONADA AQUI -->
+  <div class="quiz-cta">
+    <div class="quiz-cta-left">
+      <div class="section-kicker">05 — AVALIAÇÃO</div>
+      <h2>Teste o que você aprendeu</h2>
+      <p>
+        8 perguntas sobre partículas fundamentais, anatomia do átomo, notação nuclear (Z, N, A)
+        e famílias de nuclídeos. Leva cerca de 5 minutos.
+      </p>
+    </div>
+    <!-- Note que o link aqui aponta para a nova página que você me enviou -->
+    <a class="btn-primary quiz-cta-btn" href="quiz-estrutura-atomica.html">Iniciar quiz →</a>
+  </div>
+
+  <div class="reference-block">
+    <b>Referência:</b> LAMARSH, J. R.; BARATTA, A. J. <i>Introduction to Nuclear Engineering</i>.
+    3ª ed. Upper Saddle River: Prentice Hall, 2001. Cap. 2 — Atomic and Nuclear Physics
+    (seções 2.1 a 2.3), usado como base conceitual deste módulo.
+  </div>
+
+  <p style="font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--text-dim); letter-spacing:0.05em; padding: 10px 0 30px;">
+    Use o roadmap no topo da página para navegar entre os módulos.
+  </p>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

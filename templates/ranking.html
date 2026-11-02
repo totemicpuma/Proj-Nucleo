@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Ranking de Colaboradores</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <style>
+    .ranking-list { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; max-width: 640px; margin-bottom: 60px; }
+    .rank-card {
+      display: flex; align-items: center; gap: 18px;
+      background: var(--panel); border: 1px solid var(--panel-border-soft);
+      padding: 18px 24px; transition: border-color 0.2s ease;
+    }
+    .rank-card:hover { border-color: var(--panel-border); }
+    .rank-pos { 
+      font-family: 'Big Shoulders Display', sans-serif; font-size: 36px; font-weight: 700; 
+      color: var(--teal); width: 44px; text-align: center; line-height: 1;
+    }
+    .rank-info { flex: 1; }
+    .rank-name { 
+      font-family: 'IBM Plex Sans', sans-serif; font-weight: 600; font-size: 18px; 
+      color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+    }
+    .rank-meta { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .rank-score { font-family: 'IBM Plex Mono', monospace; font-size: 28px; color: var(--amber); font-weight: 600; text-align: right; line-height: 1; }
+    .rank-score span { display: block; font-size: 10px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.1em; }
+    
+    /* Destaque para o 1º Lugar */
+    .rank-card.ouro { border-color: var(--amber); background: linear-gradient(90deg, var(--amber-dim), var(--panel) 30%); }
+    .rank-card.ouro .rank-pos { color: var(--amber); }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      HALL DA FAMA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Ranking de Colaboradores</span>
+  </div>
+
+  <div class="form-header" style="max-width: 640px;">
+    <h1>Ranking de<br>Colaboradores</h1>
+    <p>
+      Um reconhecimento direto aos pesquisadores e estudantes que ajudam a expandir 
+      a plataforma. Cada sugestão de melhoria, material ou correção que é <b>analisada e aplicada</b>
+      pela equipe de moderação conta como um ponto no ranking geral.
+    </p>
+  </div>
+
+  <div id="ranking-list" class="ranking-list">
+    <!-- Renderizado via JavaScript -->
+    <div class="admin-empty" style="border-color: var(--panel-border);">Sincronizando dados com o núcleo...</div>
+  </div>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<!-- Scripts unificados -->
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script>
+  // Função para proteger contra injeção de HTML
+  const escapeHtml = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+
+  async function carregarRanking() {
+    const lista = document.getElementById("ranking-list");
+    
+    try {
+      const resp = await fetch("/api/ranking");
+      if (!resp.ok) throw new Error("Erro na rede");
+      const dados = await resp.json();
+
+      if (dados.length === 0) {
+        lista.innerHTML = `
+          <div class="admin-empty">
+            Nenhum colaborador possui sugestões aplicadas ainda.<br><br>
+            <a href="sugestoes.html" class="admin-link">Envie a primeira sugestão!</a>
+          </div>`;
+        return;
+      }
+
+      lista.innerHTML = dados.map((c, i) => {
+        // Aplica o destaque dourado se for o primeiro colocado
+        const coroa = i === 0 ? "ouro" : "";
+        const icone = i === 0 ? "🏆" : "";
+        const label = c.pontos === 1 ? "CONTRIBUIÇÃO" : "CONTRIBUIÇÕES";
+        
+        return `
+          <div class="rank-card ${coroa}">
+            <div class="rank-pos">#${i + 1}</div>
+            <div class="rank-info">
+              <div class="rank-name">${escapeHtml(c.nome)} ${icone}</div>
+              <div class="rank-meta">${escapeHtml(c.ocupacao || "Colaborador NÚCLEO")}</div>
+            </div>
+            <div class="rank-score">
+              ${c.pontos}
+              <span>${label}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    } catch (e) {
+      lista.innerHTML = `<div class="admin-empty err">✗ Não foi possível carregar o ranking no momento.</div>`;
+    }
+  }
+
+  // Inicia o carregamento assim que a página abre
+  carregarRanking();
+  //atualiza a página a cada 5 segundos
+  setInterval(carregarRanking, 5000);
+</script>
+</body>
+</html>

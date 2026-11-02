@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Enviar Sugestão</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      CANAL DE SUGESTÕES
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Enviar sugestão</span>
+  </div>
+
+  <div class="form-header">
+    <h1>Envie uma sugestão</h1>
+    <p>
+      Encontrou um material interessante, um erro no conteúdo ou tem uma ideia
+      para um novo tópico? Compartilhe conosco. Não é preciso ter conta — mas
+      se quiser, deixe seu e-mail para retorno.
+    </p>
+  </div>
+
+  <form class="form-panel" id="sugestao-form" novalidate>
+
+    <div class="form-success" id="form-success">
+      ✓ Sugestão enviada! Obrigado por ajudar a melhorar o NÚCLEO. Assim que o
+      banco de dados estiver conectado, sua sugestão entrará na fila de análise.
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="tipo">Tipo de sugestão <span class="req">*</span></label>
+      <select class="form-select" id="tipo" name="tipo" required>
+        <option value="" disabled selected>Selecione uma opção…</option>
+        <option value="material">Material de estudo (artigo, vídeo, livro)</option>
+        <option value="topico">Novo tópico / módulo</option>
+        <option value="correcao">Correção de conteúdo</option>
+        <option value="melhoria">Melhoria no site</option>
+        <option value="outro">Outro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="titulo">Título da sugestão <span class="req">*</span></label>
+      <input class="form-input" type="text" id="titulo" name="titulo" placeholder="Resuma sua ideia em uma frase" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="descricao">Descrição <span class="req">*</span></label>
+      <textarea class="form-textarea" id="descricao" name="descricao" placeholder="Detalhe sua sugestão. Se for um material, cole o link e explique por que é relevante." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">E-mail (opcional)</label>
+      <input class="form-input" type="email" id="email" name="email" placeholder="voce@exemplo.com">
+      <div class="form-hint">Deixe se quiser receber um retorno sobre sua sugestão.</div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Enviar sugestão →</button>
+      <a href="index.html" class="btn-ghost">Voltar ao início</a>
+    </div>
+
+    <div class="form-note">
+      NOTA: Ao enviar, a sugestão é gravada no banco com status "nova".
+      Rode o backend (FastAPI) para que o envio funcione.
+    </div>
+
+  </form>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script>
+  const form = document.getElementById("sugestao-form");
+  const success = document.getElementById("form-success");
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!this.checkValidity()){
+      this.reportValidity();
+      return;
+    }
+
+    const btn = this.querySelector(".btn-primary");
+    btn.disabled = true;
+    btn.textContent = "Enviando…";
+
+    const payload = {
+      tipo: document.getElementById("tipo").value,
+      titulo: document.getElementById("titulo").value,
+      descricao: document.getElementById("descricao").value,
+      email: document.getElementById("email").value || null,
+    };
+
+    // Pega o token se o usuário estiver logado e adiciona ao cabeçalho
+    const token = sessionStorage.getItem("nucleo_token");
+    const headers = { "Content-Type": "application/json" };
+    if (token) headers["Authorization"] = "Bearer " + token;
+
+    try {
+      const resp = await fetch("/api/sugestoes", {
+        method: "POST",
+        headers: headers, // Passa a variável de cabeçalhos dinâmicos
+        body: JSON.stringify(payload),
+      });
+
+      if (resp.ok) {
+        success.textContent = "✓ Sugestão enviada! Obrigado por ajudar a melhorar o NÚCLEO. Ela entrou na fila de análise.";
+        success.classList.add("show");
+        form.reset();
+        success.scrollIntoView({ behavior:"smooth", block:"center" });
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        success.textContent = "✗ " + (err.detail || "Não foi possível enviar. Tente novamente.");
+        success.style.borderColor = "var(--danger)";
+        success.style.background = "var(--danger-dim)";
+        success.classList.add("show");
+        btn.disabled = false;
+        btn.textContent = "Enviar sugestão →";
+      }
+    } catch (_) {
+      success.textContent = "✗ Servidor indisponível. Verifique se o backend (FastAPI) está rodando.";
+      success.style.borderColor = "var(--danger)";
+      success.style.background = "var(--danger-dim)";
+      success.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = "Enviar sugestão →";
+    }
+  });
+</script>
+</body>
+</html>

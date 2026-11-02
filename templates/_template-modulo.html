@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!--
+  TEMPLATE DE MÓDULO — NÚCLEO
+  Como usar:
+  1. Copie este arquivo para html/<nome-do-modulo>.html
+  2. Troque o <title>, o MÓDULO XX, o <h1>, o topic-intro e o data-current do roadmap.
+  3. Preencha as <section class="topic-section"> com o conteúdo.
+  4. Ajuste o link do quiz (href="quiz-<nome>.html").
+  5. O mini-roadmap já vem configurado: fica recolhido no canto superior direito e
+     expande no hover (ou toque/clique, fallback p/ celular). Não mexa no JS.
+  Para ligar um nó do roadmap a esta página, adicione href:"<nome>.html" no array
+  NODES, em js/script.js.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TÍTULO DO MÓDULO — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<!-- O body PRECISA da classe module-page para ativar o mini-roadmap dock -->
+<body class="module-page">
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <span class="current">NOME DO MÓDULO</span>
+  </div>
+
+  <!-- HERO (1 coluna: o roadmap vira dock fixo, não fica na grade) -->
+  <div class="hero" style="padding: 40px 0 0; align-items: start;">
+    <div>
+      <div class="topic-badge"><span class="dot"></span>MÓDULO XX · CONCLUÍDO</div>
+      <h1 style="font-size: clamp(38px, 5vw, 64px); margin-bottom: 16px;">Título<br>do módulo</h1>
+      <p class="topic-intro">
+        Resumo curto do que o módulo cobre e por que importa no roadmap.
+      </p>
+
+      <!-- CONTEÚDO DO MÓDULO -->
+      <div class="topic-body" style="padding-bottom: 0;">
+
+        <!-- SECTION 1 -->
+        <section class="topic-section">
+          <div class="section-kicker">01 — TÓPICO UM</div>
+          <h2>Título da seção um</h2>
+          <p>Texto da seção. Use <b>negrito</b> para destacar termos.</p>
+        </section>
+
+        <!-- SECTION 2 (exemplo com stat-grid) -->
+        <section class="topic-section">
+          <div class="section-kicker">02 — TÓPICO DOIS</div>
+          <h2>Título da seção dois</h2>
+          <p>Texto introdutório da seção.</p>
+
+          <div class="stat-subhead">SUBTÍTULO DE BLOCO</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">RÓTULO</div>
+              <div class="stat-value">~123</div>
+              <div class="stat-note">Nota explicativa do valor.</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">RÓTULO</div>
+              <div class="stat-value">~45%</div>
+              <div class="stat-note">Nota explicativa do valor.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3 (exemplo com notation-box) -->
+        <section class="topic-section">
+          <div class="section-kicker">03 — TÓPICO TRÊS</div>
+          <h2>Título da seção três</h2>
+          <p>Texto da seção.</p>
+
+          <div class="notation-box">
+            <div class="nuclide-symbol" style="font-size:36px;">A = Z + N</div>
+            <div class="notation-legend">
+              <div class="item"><b>A</b> número de massa</div>
+              <div class="item"><b>Z</b> número atômico (prótons)</div>
+              <div class="item"><b>N</b> número de nêutrons</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+  <!-- FIM DO HERO -->
+
+  <!-- MINI-ROADMAP DOCK (canto superior direito; hover expande) -->
+  <!-- data-current deve ser o id do nó desta página em js/script.js (n0, n1, n2...) -->
+  <div class="roadmap-panel" tabindex="0">
+    <div class="roadmap-dock-hint"><span class="dock-mark"></span>ROADMAP</div>
+    <div class="roadmap-head">
+      <div class="roadmap-title">ROADMAP DE ESTUDOS</div>
+      <div class="roadmap-count">10 NÓS</div>
+    </div>
+    <div class="roadmap-sub">clique em um tópico — nós com ↗ abrem o módulo completo</div>
+
+    <svg id="roadmap-svg" data-current="n1" viewBox="0 0 400 585" xmlns="http://www.w3.org/2000/svg">
+      <g id="rm-edges"></g>
+      <g id="rm-nodes"></g>
+    </svg>
+
+    <div class="rm-legend">
+      <span><i class="amber"></i>concluído</span>
+      <span><i class="teal"></i>em andamento</span>
+      <span><i class="locked"></i>bloqueado</span>
+      <span><i class="current"></i>você está aqui</span>
+    </div>
+
+    <div class="rm-info" id="rm-info">
+      <div class="rm-info-title">Selecione um tópico no diagrama<span class="rm-info-status"></span></div>
+      <div class="rm-info-desc">Os detalhes de cada módulo aparecem aqui ao clicar em um nó do roadmap.</div>
+    </div>
+  </div>
+
+  <!-- CHAMADA PARA O QUIZ -->
+  <div class="quiz-cta">
+    <div class="quiz-cta-left">
+      <div class="section-kicker">XX — AVALIAÇÃO</div>
+      <h2>Teste o que você aprendeu</h2>
+      <p>
+        X perguntas sobre os tópicos deste módulo. Leva cerca de 5 minutos.
+      </p>
+    </div>
+    <a class="btn-primary quiz-cta-btn" href="quiz-NOME.html">Iniciar quiz →</a>
+  </div>
+
+  <div class="reference-block">
+    <b>Referência:</b> LAMARSH, J. R.; BARATTA, A. J. <i>Introduction to Nuclear Engineering</i>.
+    3ª ed. Upper Saddle River: Prentice Hall, 2001. (capítulos/seus usados como base).
+  </div>
+
+  <p style="font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--text-dim); letter-spacing:0.05em; padding: 10px 0 30px;">
+    Use o botão ROADMAP no canto superior direito para navegar entre os módulos.
+  </p>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

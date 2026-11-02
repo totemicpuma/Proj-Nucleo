@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Física Nuclear — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <a href="fisica-nuclear.html">FÍSICA NUCLEAR</a>
+    <span class="sep">/</span>
+    <span class="current">QUIZ</span>
+  </div>
+
+  <div class="quiz-header">
+    <div class="topic-badge"><span class="dot"></span>AVALIAÇÃO · MÓDULO 01</div>
+    <h1>Quiz: Física Nuclear</h1>
+    <p>8 perguntas sobre energia nuclear, massa-energia, defeito de massa, energia de ligação e o panorama global/nacional do setor.</p>
+  </div>
+
+  <!-- QUESTION STAGE -->
+  <div class="quiz-panel" id="quiz-stage">
+    <div class="quiz-meta">
+      <span id="quiz-progress-label">PERGUNTA 1/8</span>
+      <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+      <span class="quiz-score-label" id="quiz-score-label">ACERTOS: 0</span>
+    </div>
+
+    <h2 class="quiz-question" id="quiz-question"></h2>
+    <div class="quiz-options" id="quiz-options"></div>
+    <div class="quiz-feedback" id="quiz-feedback" style="display:none;"></div>
+
+    <div class="quiz-actions">
+      <button class="btn-primary" id="quiz-confirm" disabled>Confirmar</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="quiz-panel quiz-results" id="quiz-results" style="display:none;"></div>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script>
+  const QUIZ = {
+    moduleName: "Física Nuclear",
+    moduleHref: "fisica-nuclear.html",
+    roadmapHref: "index.html",
+    passThreshold: 0.7,
+    quizSize: 8,
+    questions: [
+      {
+        q: "O que diferencia fundamentalmente uma reação nuclear de uma reação química?",
+        options: [
+          "Reações nucleares só acontecem em laboratório",
+          "Reações nucleares se originam no núcleo do átomo e liberam muito mais energia por partícula",
+          "Reações químicas liberam mais energia por partícula",
+          "Não há diferença significativa de energia entre elas"
+        ],
+        correct: 1,
+        explain: "Reações nucleares se originam no núcleo (não na eletrosfera) e liberam, por partícula envolvida, milhões de vezes mais energia que reações químicas comuns."
+      },
+      {
+        q: "Segundo a IAEA (PRIS) e a World Nuclear Association, aproximadamente quantos reatores nucleares estão em operação no mundo hoje?",
+        options: ["Cerca de 50", "Cerca de 150", "Cerca de 440", "Cerca de 2.000"],
+        correct: 2,
+        explain: "Há cerca de 440 reatores comerciais em operação em mais de 30 países, segundo dados da IAEA PRIS e da World Nuclear Association."
+      },
+      {
+        q: "No Brasil, quem regula a atividade nuclear, incluindo as usinas de Angra?",
+        options: ["ANEEL", "CNEN — Comissão Nacional de Energia Nuclear", "IBAMA", "ONS"],
+        correct: 1,
+        explain: "A CNEN (Comissão Nacional de Energia Nuclear) é o órgão federal responsável por regular e fiscalizar a atividade nuclear no Brasil."
+      },
+      {
+        q: "O que a equação E = m₀c² estabelece?",
+        options: [
+          "Que a energia é proporcional à velocidade da partícula",
+          "Que massa e energia são formas equivalentes de uma mesma grandeza",
+          "Que a massa de uma partícula aumenta com a temperatura",
+          "Que apenas partículas carregadas têm energia de repouso"
+        ],
+        correct: 1,
+        explain: "E = m₀c² mostra que massa de repouso e energia são equivalentes: reduzir a massa de um sistema libera energia correspondente."
+      },
+      {
+        q: "Aproximadamente quanto vale 1 unidade de massa atômica (u) em energia?",
+        options: ["0,511 MeV", "931,5 MeV", "13,6 eV", "2,23 MeV"],
+        correct: 1,
+        explain: "1 u equivale a aproximadamente 931,5 MeV — um valor de referência usado o tempo todo em cálculos de reações nucleares."
+      },
+      {
+        q: "O que é o 'defeito de massa' de um núcleo?",
+        options: [
+          "Um erro de medição comum em física nuclear",
+          "A diferença entre a massa do núcleo e a soma das massas de seus núcleons separados",
+          "A perda de nêutrons ao longo do tempo",
+          "A diferença de carga entre prótons e elétrons"
+        ],
+        correct: 1,
+        explain: "A massa do núcleo montado é sempre menor que a soma das massas de seus núcleons livres; essa diferença é o defeito de massa, ligado à energia de ligação por E = mc²."
+      },
+      {
+        q: "Na curva de energia de ligação por núcleon, o pico (núcleo mais fortemente ligado) fica próximo de qual elemento?",
+        options: ["Hidrogênio", "Ferro (A ≈ 56)", "Urânio (A ≈ 235)", "Chumbo (A ≈ 207)"],
+        correct: 1,
+        explain: "O pico da curva de energia de ligação por núcleon fica próximo do ferro-56, o núcleo mais fortemente ligado que existe."
+      },
+      {
+        q: "Fissão e fusão liberam energia porque ambas:",
+        options: [
+          "Criam nêutrons livres",
+          "Deslocam o sistema em direção ao pico da curva BE/A",
+          "Reduzem a temperatura do núcleo",
+          "Aumentam a massa total do sistema"
+        ],
+        correct: 1,
+        explain: "Ambas redirecionam o sistema para núcleos mais fortemente ligados por nucleon, liberando energia conforme E=Δmc²."
+      },
+      {
+        q: "Na fissão controlada, o que ocorre com o núcleo de urânio-235?",
+        options: [
+          "Ele se funde com outro núcleo leve",
+          "Ele se divide em dois núcleos menores e libera nêutrons",
+          "Ele captura elétrons",
+          "Ele decai para chumbo-206"
+        ],
+        correct: 1,
+        explain: "O U-235 absorve um nêutron e se divide em dois fragmentos, com liberação de ~200 MeV e nêutrons adicionais para manter a reação em cadeia."
+      },
+      {
+        q: "Qual a função do moderador em um reator nuclear?",
+        options: [
+          "Acelerar nêutrons",
+          "Absorver radiação gama",
+          "Reduzir a velocidade dos nêutrons térmicos para aumentar a fissão",
+          "Resfriar o núcleo diretamente"
+        ],
+        correct: 2,
+        explain: "Moderadores como água leve, grafite ou água pesada reduzem a velocidade dos nêutrons, aumentando a probabilidade de fissão no U-235."
+      },
+      {
+        q: "O que significa 'ativação' de um material em um reator?",
+        options: [
+          "Tornar o material combustível",
+          "Tornar o material radioativo por captura de nêutrons",
+          "Aumentar a condutividade do material",
+          "Reduzir a temperatura do núcleo"
+        ],
+        correct: 1,
+        explain: "Materiais irradiados podem se tornar radioativos quando núcleos capturam nêutrons e viram radioisótopos."
+      },
+      {
+        q: "Qual reator foi responsável pelo primeiro desastre nuclear civil notório em 1986?",
+        options: [
+          "Reator de Three Mile Island",
+          "Reator de Chernobyl",
+          "Reator de Fukushima",
+          "Reator de Windscale"
+        ],
+        correct: 1,
+        explain: "Chernobyl-4, na Ucrânia, explodiu em 26 de abril de 1986 durante um teste de potência."
+      },
+      {
+        q: "Em um reator PWR, o calor gerado no núcleo é transferido para a água por:",
+        options: [
+          "Convecção natural",
+          "Irradiação térmica",
+          "Convecção forçada por bombas de circulação primária",
+          "Radiação direta no trocador"
+        ],
+        correct: 2,
+        explain: "O circuito primário pressurizado tem bombas que forçam a circulação da água, transferindo calor para o gerador de vapor."
+      },
+      {
+        q: "Por que o Brasil optou por reatores de água pressurizada (PWR) em Angra?",
+        options: [
+          "Baixo custo de capital",
+          "Tecnologia nacional consolidada",
+          "Experiência anterior com tecnologia leve de submarino + domínio operacional",
+          "Maior eficiência térmica teórica"
+        ],
+        correct: 2,
+        explain: "O modelo veio da experiência da Marinha com submarinos e permite domínio operacional nacional seguro e com suporte internacional."
+      },
+      {
+        q: "Qual partícula é usada em medicina nuclear para diagnóstico por imagem (PET)?",
+        options: [
+          "Próton",
+          "Elétron",
+          "Pósitron",
+          "Nêutron"
+        ],
+        correct: 2,
+        explain: "O pósitron emitido por radiofármacos como FDG é detectado em pares de aniquilação no PET."
+      },
+      {
+        q: "O que significa 'meia-vida'?",
+        options: [
+          "Tempo até o núcleo decair completamente",
+          "Tempo para metade dos núcleos de uma amostra decaírem",
+          "Tempo entre dois desastres nucleares",
+          "Tempo para um reator atingir potência máxima"
+        ],
+        correct: 1,
+        explain: "T½ é o tempo necessário para que metade dos núcleos radiativos de uma amostra decaiam."
+      },
+      {
+        q: "Qual destes materiais é comumente usado como combustível em reatores comerciais?",
+        options: [
+          "Berílio",
+          "Urânio enriquecido a ~3-5% de U-235",
+          "Tório puro",
+          "Plutônio metálico"
+        ],
+        correct: 1,
+        explain: "O urânio enriquecido mantém a criticidade com concentração suficiente de U-235 para reação sustentada controlada."
+      },
+      {
+        q: "Qual o principal risco associado ao lixo radioativo de alta atividade?",
+        options: [
+          "Tai",
+          "Baixa radiatividade",
+          "Longo período de radioatividade exigindo confinamento seguro por milhares de anos",
+          "Instabilidade térmica"
+        ],
+        correct: 2,
+        explain: "Resíduos de alta atividade permanecem perigosos por escalas geológicas; requerem repositórios profundos e multicamadas."
+      },
+      {
+        q: "O que é descontaminação em usinas nucleares?",
+        options: [
+          "Transformar resíduos em água pura",
+          "Remover material radioativo de superfícies/equipamentos",
+          "Padronizar temperatura do reator",
+          "Reduzir enriquecimento de combustível"
+        ],
+        correct: 1,
+        explain: "Descontaminação remove ou reduz a contaminação radioativa de áreas/objetos durante operação ou descomissionamento."
+      },
+      {
+        q: "Qual organograma normativo é mencionado no contexto brasileiro de energia nuclear?",
+        options: [
+          "CNN e IBAMA",
+          "CNEN como órgão regulador federal da atividade nuclear",
+          "Fapesp + CNPq",
+          "Ministério de Minas e Energia como único órgão"
+        ],
+        correct: 1,
+        explain: "A CNEN está vinculada ao MME e detém competência regulatória, de inspeção e licenciamento da atividade nuclear."
+      },
+      {
+        q: "Qual vantagem prática é frequentemente citada para energia nuclear em relação a fósseis?",
+        options: [
+          "Elimina todo lixo",
+          "Baixa emissão de gases de efeito estufa durante operação",
+          "Não precisa água",
+          "Custo inicial quase zero"
+        ],
+        correct: 1,
+        explain: "A geração nuclear emite pouco ou nenhum CO₂ na operação, contribuindo para descarbonização da matriz."
+      },
+      {
+        q: "O que é um 'reator de quarta geração' no contexto nuclear?",
+        options: [
+          "Qualquer reator acima de 1 GW",
+          "Sistemas avançados projetados para segurança passiva, maior eficiência e menor resíduo",
+          "Reatores movidos a fusão",
+          "Reatores militares exclusivos"
+        ],
+        correct: 1,
+        explain: "Geração IV inclui designs como reatores de sal fundido, módulos pequenos e sistemas com segurança intrínseca."
+      },
+      {
+        q: "Qual desses eventos NÃO é uma consequência direta de sobrecarga térmica no núcleo?",
+        options: [
+          "Falha da barra de controle",
+          "Perda da isolação elétrica residencial",
+          "Liberação de hidrogênio",
+          "Dano ao material do combustível"
+        ],
+        correct: 1,
+        explain: "Sobrecarga térmica pode danificar combustível, gerar hidrogênio e falhar sistemas, mas não causa diretamente falta de luz em bairros."
+      },
+      {
+        q: "Qual cidade brasileira abriga a Usina Nuclear Angra 2?",
+        options: [
+          "São Paulo",
+          "Rio de Janeiro",
+          "Angra dos Reis",
+          "Santos"
+        ],
+        correct: 2,
+        explain: "Angra dos Reis, no estado do Rio de Janeiro, é a sede da Central Nuclear Almirante Álvaro Alberto."
+      },
+      {
+        q: "Qual estrutura física impede grande parte da radiação emitida pelo núcleo?",
+        options: [
+          "Turbina",
+          "Revestimento/containment + blindagens biológicas",
+          "Gerador de vapor",
+          "Transformador"
+        ],
+        correct: 1,
+        explain: "O containment e blindagens biológicas (concreto/aço/água) reduzem a dose externa para área de trabalho e população."
+      },
+      {
+        q: "A simulação com modelos de redes neurais em energia nuclear pode ajudar em:",
+        options: [
+          "Construção de hospitais",
+          "Reconstrução de fluxo de potência e detecção de anomalias",
+          "Aumento da radioatividade ambiental",
+          "Extração de urânio"
+        ],
+        correct: 1,
+        explain: "Redes neurais podem reconstruir distribuições espaciais de potência/temperatura e antecipar falhas."
+      },
+      {
+        q: "O que é 'reação em cadeia'?",
+        options: [
+          "Qualquer explosão nuclear",
+          "Processo onde nêutrons liberados por uma fissão causam novas fissões",
+          "Decadência de elementos em cadeia de desintegr",
+          "Fusão contínua no Sol"
+        ],
+        correct: 1,
+        explain: "Em reatores, os nêutrons rápidos/termicos mantém a multiplicidade crítica k≈1 para potência estável."
+      }
+    ]
+  };
+</script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Painel de Moderação</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      MODO MODERAÇÃO
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Painel de moderação</span>
+  </div>
+
+  <div class="form-header">
+    <h1>Painel de moderação</h1>
+    <p>
+      Analise solicitações de colaborador e sugestões enviadas pela comunidade.
+      Aprove, recuse ou atualize o andamento de cada item.
+    </p>
+  </div>
+
+  <!-- ===== COLABORADORES ===== -->
+  <section class="admin-section">
+    <div class="admin-head">
+      <h2>Colaboradores <span class="admin-count" id="col-count">0</span></h2>
+      <div class="admin-filters" id="col-filters">
+        <button class="filter-btn active" data-f="todos">Todos</button>
+        <button class="filter-btn" data-f="pendente">Pendentes</button>
+        <button class="filter-btn" data-f="aprovado">Aprovados</button>
+        <button class="filter-btn" data-f="recusado">Recusados</button>
+      </div>
+    </div>
+    <div class="admin-list" id="col-list"><div class="admin-empty">Carregando…</div></div>
+  </section>
+
+  <!-- ===== SUGESTÕES ===== -->
+  <section class="admin-section">
+    <div class="admin-head">
+      <h2>Sugestões <span class="admin-count" id="sug-count">0</span></h2>
+      <div class="admin-filters" id="sug-filters">
+        <button class="filter-btn active" data-f="todos">Todas</button>
+        <button class="filter-btn" data-f="nova">Novas</button>
+        <button class="filter-btn" data-f="analisando">Analisando</button>
+        <button class="filter-btn" data-f="aplicada">Aplicadas</button>
+        <button class="filter-btn" data-f="arquivada">Arquivadas</button>
+      </div>
+    </div>
+    <div class="admin-list" id="sug-list"><div class="admin-empty">Carregando…</div></div>
+  </section>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<!-- Scripts unificados de autenticação e funcionalidades -->
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script>
+// Exige login + flag is_admin do banco de dados
+(async function () {
+  if (!NucleoAuth.isLoggedIn()) {
+    window.location.href = "/admin/login";
+    return;
+  }
+  const u = await NucleoAuth.me();
+  if (!u || !u.is_admin) {
+    window.location.href = "/admin/login";
+  }
+})();
+</script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

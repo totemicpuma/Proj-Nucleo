@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Painel de Estudos em Energia Nuclear</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Link para o arquivo CSS externo -->
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+        <!-- NOVO: Botão do Ranking -->
+        <a href="ranking.html" class="logo-sub" style="color: var(--teal); text-decoration: none; display: flex; align-items: center; gap: 6px; margin-top: 6px; transition: filter 0.2s ease;">
+          <span style="display:inline-block; width:6px; height:6px; background:var(--teal); border-radius:50%; box-shadow: 0 0 6px var(--teal);"></span>
+          RANKING DE COLABORADORES
+        </a>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">PLATAFORMA DE AUTOESTUDO</div>
+      <h1>Energia<br>nuclear<br><span>do zero ao núcleo.</span></h1>
+      <p class="hero-desc">
+        Um percurso estruturado por <b>física nuclear, reatores, termo-hidráulica e instrumentação</b>,
+        até aplicações de redes neurais em reconstrução de potência. Cada tópico só se abre
+        quando o anterior está dominado — como um painel de controle real.
+      </p>
+      <div class="cta-row">
+        <button class="btn-primary" id="cta-start">Continuar estudo →</button>
+        <a href="#" class="btn-ghost">Ver todos os módulos</a>
+      </div>
+
+      <div class="strip">
+        <div class="strip-cell">
+          <div class="strip-label">TÓPICOS</div>
+          <div class="strip-value">10</div>
+        </div>
+        <div class="strip-cell">
+          <div class="strip-label">CONCLUÍDOS</div>
+          <div class="strip-value amber">03</div>
+        </div>
+        <div class="strip-cell">
+          <div class="strip-label">EM ANDAMENTO</div>
+          <div class="strip-value teal">01</div>
+        </div>
+        <div class="strip-cell">
+          <div class="strip-label">PROGRESSO</div>
+          <div class="strip-value">30%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="roadmap-panel">
+      <div class="roadmap-head">
+        <div class="roadmap-title">ROADMAP DE ESTUDOS</div>
+        <div class="roadmap-count">10 NÓS</div>
+      </div>
+      <div class="roadmap-sub">clique em um tópico — nós com ↗ abrem o módulo completo</div>
+
+      <svg id="roadmap-svg" viewBox="0 0 400 585" xmlns="http://www.w3.org/2000/svg">
+        <!-- edges (drawn first, under nodes) -->
+        <g id="rm-edges"></g>
+        <!-- nodes -->
+        <g id="rm-nodes"></g>
+      </svg>
+
+      <div class="rm-legend">
+        <span><i class="amber"></i>concluído</span>
+        <span><i class="teal"></i>em andamento</span>
+        <span><i class="locked"></i>bloqueado</span>
+        <span><i class="current"></i>você está aqui</span>
+      </div>
+
+      <div class="rm-info" id="rm-info">
+        <div class="rm-info-title">Selecione um tópico no diagrama<span class="rm-info-status"></span></div>
+        <div class="rm-info-desc">Os detalhes de cada módulo aparecem aqui ao clicar em um nó do roadmap.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== MÓDULO EM DESTAQUE ===== -->
+  <section class="community">
+    <div class="community-card contribute">
+      <div class="community-left">
+        <div class="community-kicker">APLICAÇÃO AVANÇADA</div>
+        <h2>Redes neurais aplicadas ao núcleo</h2>
+        <p>
+          O módulo que fecha o percurso: como uma <b>rede neural (MLP)</b> reconstrói a
+          distribuição radial de potência de um reator PWR a partir de apenas 36 leituras de
+          detectores — com resultados reais do Ciclo 08 de Angra 1.
+        </p>
+      </div>
+      <a href="redes-neurais.html" class="btn-primary community-btn">Abrir módulo →</a>
+    </div>
+  </section>
+
+  <!-- ===== COMUNIDADE / COLABORADOR ===== -->
+  <section class="community">
+    <div class="community-card contribute">
+      <div class="community-left">
+        <div class="community-kicker">COMUNIDADE DE ESTUDO</div>
+        <h2>Torne-se um colaborador</h2>
+        <p>
+          Você quer se tornar um <b>colaborador</b> e fomentar o estudo da energia
+          nuclear com <b>sugestões e materiais</b> para o site? Ajude a construir
+          um percurso de estudo cada vez mais completo.
+        </p>
+      </div>
+      <a href="cadastro.html" class="btn-primary community-btn">Quero colaborar →</a>
+    </div>
+
+    <div class="community-card suggest">
+      <div class="community-left">
+        <div class="community-kicker teal">CONTRIBUIÇÃO RÁPIDA</div>
+        <h2>Tem uma sugestão?</h2>
+        <p>
+          Encontrou um material interessante, um erro no conteúdo ou tem uma ideia
+          para um novo tópico? Envie sua <b>sugestão</b> — não é preciso ter conta.
+        </p>
+      </div>
+      <a href="sugestoes.html" class="btn-ghost-box community-btn">Enviar sugestão →</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+    <a href="admin.html" style="color:var(--text-dim);text-decoration:none;">moderação</a>
+  </footer>
+
+</div>
+
+<!-- Link para o arquivo JavaScript externo -->
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

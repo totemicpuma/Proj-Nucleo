@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NÚCLEO — Entrar</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <a href="index.html" class="logo" style="text-decoration:none;color:inherit;">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </a>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      ACESSO DE COLABORADOR
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="sep">/</span>
+    <span class="current">Entrar</span>
+  </div>
+
+  <div class="form-header">
+    <h1>Entrar</h1>
+    <p>Acesse sua conta de colaborador para gerenciar seu perfil e enviar sua verificação.</p>
+  </div>
+
+  <form class="form-panel" id="login-form" novalidate>
+
+    <div class="form-success" id="form-success"></div>
+
+    <div class="form-group">
+      <label class="form-label" for="email">E-mail <span class="req">*</span></label>
+      <input class="form-input" type="email" id="email" name="email" placeholder="voce@exemplo.com" required>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="senha">Senha <span class="req">*</span></label>
+      <input class="form-input" type="password" id="senha" name="senha" placeholder="sua senha" required>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Entrar →</button>
+      <a href="cadastro.html" class="btn-ghost">Criar conta</a>
+    </div>
+
+  </form>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<!-- Importar nosso gerenciador de sessão inteligente -->
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+
+<script>
+  // 1. Destruir qualquer resquício da versão antiga para quebrar o loop
+  localStorage.removeItem("nucleo_token");
+  localStorage.removeItem("nucleo_user");
+
+  // 2. Usar o novo sistema isolado para verificar login
+  if (NucleoAuth.isLoggedIn()) {
+      window.location.href = "perfil.html";
+  }
+
+  const form = document.getElementById("login-form");
+  const success = document.getElementById("form-success");
+
+  form.addEventListener("submit", async function(e){
+    e.preventDefault();
+    if(!this.checkValidity()){ this.reportValidity(); return; }
+
+    const btn = this.querySelector(".btn-primary");
+    btn.disabled = true;
+    btn.textContent = "Entrando…";
+
+    try {
+      const resp = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: document.getElementById("email").value,
+          senha: document.getElementById("senha").value,
+        }),
+      });
+
+      if (resp.ok) {
+        const { token } = await resp.json();
+        // 3. Salvar o token no cofre EXCLUSIVO do Colaborador (Acesso A)
+        NucleoAuth.setSession(token, null);
+        window.location.href = "perfil.html";
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        success.textContent = "✗ " + (err.detail || "Não foi possível entrar.");
+        success.style.borderColor = "var(--danger)";
+        success.style.background = "var(--danger-dim)";
+        success.classList.add("show");
+        btn.disabled = false;
+        btn.textContent = "Entrar →";
+      }
+    } catch (_) {
+      success.textContent = "✗ Servidor indisponível. Verifique se o backend está rodando.";
+      success.style.borderColor = "var(--danger)";
+      success.style.background = "var(--danger-dim)";
+      success.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = "Entrar →";
+    }
+  });
+</script>
+</body>
+</html>

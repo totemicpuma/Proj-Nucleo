@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Estrutura Atômica — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <a href="estrutura-atomica.html">ESTRUTURA ATÔMICA</a>
+    <span class="sep">/</span>
+    <span class="current">QUIZ</span>
+  </div>
+
+  <div class="quiz-header">
+    <div class="topic-badge"><span class="dot"></span>AVALIAÇÃO · MÓDULO 02</div>
+    <h1>Quiz: Estrutura Atômica</h1>
+    <p>8 perguntas sobre partículas fundamentais, anatomia do átomo, notação nuclear e famílias de nuclídeos.</p>
+  </div>
+
+  <!-- QUESTION STAGE -->
+  <div class="quiz-panel" id="quiz-stage">
+    <div class="quiz-meta">
+      <span id="quiz-progress-label">PERGUNTA 1/8</span>
+      <div class="quiz-progress-track"><div class="quiz-progress-fill" id="quiz-progress-fill"></div></div>
+      <span class="quiz-score-label" id="quiz-score-label">ACERTOS: 0</span>
+    </div>
+
+    <h2 class="quiz-question" id="quiz-question"></h2>
+    <div class="quiz-options" id="quiz-options"></div>
+    <div class="quiz-feedback" id="quiz-feedback" style="display:none;"></div>
+
+    <div class="quiz-actions">
+      <button class="btn-primary" id="quiz-confirm" disabled>Confirmar</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="quiz-panel quiz-results" id="quiz-results" style="display:none;"></div>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script>
+  const QUIZ = {
+    moduleName: "Estrutura Atômica",
+    moduleHref: "estrutura-atomica.html",
+    roadmapHref: "index.html",
+    passThreshold: 0.7,
+    quizSize: 8,
+    questions: [
+      {
+        q: "Qual partícula não possui carga elétrica?",
+        options: ["Próton", "Elétron", "Nêutron", "Pósitron"],
+        correct: 2,
+        explain: "O nêutron é eletricamente neutro; próton e pósitron têm carga positiva, e o elétron tem carga negativa."
+      },
+      {
+        q: "Onde ficam os prótons e nêutrons em um átomo?",
+        options: ["Na eletrosfera", "No núcleo", "Distribuídos igualmente pelo átomo", "Apenas em átomos radioativos"],
+        correct: 1,
+        explain: "Prótons e nêutrons (núcleons) ficam concentrados no núcleo, que é pequeno e denso comparado ao átomo inteiro."
+      },
+      {
+        q: "O que o número atômico (Z) representa?",
+        options: ["O número de nêutrons", "O número de prótons", "A soma de prótons e nêutrons", "O número de elétrons na última camada"],
+        correct: 1,
+        explain: "Z é o número de prótons no núcleo — é ele que define de qual elemento químico estamos falando."
+      },
+      {
+        q: "Qual fórmula relaciona corretamente Z, N e A?",
+        options: ["A = Z − N", "Z = A + N", "A = Z + N", "N = Z + A"],
+        correct: 2,
+        explain: "O número de massa A é a soma do número de prótons (Z) com o número de nêutrons (N)."
+      },
+      {
+        q: "O urânio-235 tem Z = 92 e A = 235. Quantos nêutrons ele tem?",
+        options: ["92", "143", "235", "327"],
+        correct: 1,
+        explain: "N = A − Z = 235 − 92 = 143 nêutrons."
+      },
+      {
+        q: "Dois átomos são isótopos quando têm:",
+        options: ["O mesmo número de massa (A)", "O mesmo número de nêutrons (N)", "O mesmo número atômico (Z)", "A mesma massa atômica exata"],
+        correct: 2,
+        explain: "Isótopos são átomos do mesmo elemento (mesmo Z) com números diferentes de nêutrons — logo, massas diferentes."
+      },
+      {
+        q: "¹⁴C e ¹⁴N têm o mesmo número de massa (A = 14). Essa relação é chamada de:",
+        options: ["Isótopos", "Isóbaros", "Isótonos", "Alótropos"],
+        correct: 1,
+        explain: "Isóbaros são nuclídeos diferentes que compartilham o mesmo número de massa A, mesmo tendo Z diferentes."
+      },
+      {
+        q: "Por que um nêutron livre (fora do núcleo) não é estável?",
+        options: [
+          "Ele perde carga elétrica com o tempo",
+          "Ele decai em próton, elétron e antineutrino em poucos minutos",
+          "Ele se funde espontaneamente com um próton próximo",
+          "Ele é sempre estável, só o próton livre decai"
+        ],
+        correct: 1,
+        explain: "Fora de um núcleo estável, o nêutron decai (meia-vida de cerca de 12 minutos) em um próton, um elétron e um antineutrino."
+      },
+      {
+        q: "Qual experimento histórico levou à descoberta do núcleo atômico?",
+        options: [
+          "Experimento de Young",
+          "Experimento de Millikan",
+          "Experimento de Rutherford com folha de ouro",
+          "Experimento de Thomson com tubo de raios catódicos"
+        ],
+        correct: 2,
+        explain: "Rutherford observou que partículas alfa rebatiam em ângulos grandes, indicando um núcleo pequeno e denso."
+      },
+      {
+        q: "Qual modelo atômico propôs que os elétrons ocupam órbitas circulares quantizadas?",
+        options: [
+          "Thomson",
+          "Rutherford",
+          "Bohr",
+          "Schrödinger"
+        ],
+        correct: 2,
+        explain: "Bohr propôs órbitas quantizadas em 1913, explicando espectros atômicos de hidrogênio."
+      },
+      {
+        q: "Qual modelo descreve o átomo por meio de orbitais e funções de onda?",
+        options: [
+          "Bohr",
+          "Rutherford",
+          "Mecânica Quântica de Schrödinger",
+          "Dalton"
+        ],
+        correct: 2,
+        explain: "Schrödinger tratou elétrons como ondas estacionárias; os orbitais descrevem regiões de maior probabilidade."
+      },
+      {
+        q: "Quantos elétrons cabem no terceiro nível principal (n=3)?",
+        options: ["8", "18", "32", "2"],
+        correct: 1,
+        explain: "Por camada: 2n². Para n=3 => 2×9=18 elétrons no nível 3."
+      },
+      {
+        q: "Qual principio estabelece que não pode haver dois elétrons com os mesmos 4 números quânticos no mesmo átomo?",
+        options: [
+          "Hund",
+          "Aufbau",
+          "Exclusão de Pauli",
+          "Heisenberg"
+        ],
+        correct: 2,
+        explain: "O princípio da exclusão de Pauli proíbe configurações duplicadas na mesma função de onda."
+      },
+      {
+        q: "O que o número atômico Z define em um átomo?",
+        options: [
+          "Massa total",
+          "Número de nêutrons",
+          "Número de prótons",
+          "Distância ao núcleo"
+        ],
+        correct: 2,
+        explain: "Z define a identidade química do elemento e, em átomo neutro, também o número de elétrons."
+      },
+      {
+        q: "Qual destas famílias reúne nuclídeos com mesmo número de nêutrons?",
+        options: ["Isótopos", "Isóbaros", "Isótonos", "Isómeros"],
+        correct: 2,
+        explain: "Isótonos têm mesmo N e diferentes Z e A, ex: B-12 e C-13."
+      },
+      {
+        q: "Em qual região do átomo os elétrons se movem?",
+        options: ["Núcleo", "Nuvem eletrônica/eletrosfera", "Centro", "Somente no shiny"],
+        correct: 1,
+        explain: "Os elétrons estão na eletrosfera, em regiões descritas por orbitais, não em trajetórias fixas."
+      },
+      {
+        q: "Qual cientista propôs o modelo de 'pudim de passas'?",
+        options: [
+          "Ernest Rutherford",
+          "Niels Bohr",
+          "J.J. Thomson",
+          "James Chadwick"
+        ],
+        correct: 2,
+        explain: "Thomson imaginou o átomo como uma esfera positiva com elétrons embutidos como 'uvas'."
+      },
+      {
+        q: "Qual partícula foi descoberta por James Chadwick em 1932?",
+        options: [
+          "Próton",
+          "Elétron",
+          "Pósitron",
+          "Nêutron"
+        ],
+        correct: 3,
+        explain: "Chadwick confirmou a existência do nêutron, completando o modelo básico do núcleo."
+      },
+      {
+        q: "Qual formato tem um orbital s?",
+        options: [
+          "Duplo lóbulo",
+          "Esférico",
+          "Anelar",
+          "Em forma de trevo"
+        ],
+        correct: 1,
+        explain: "Orbitais s são esféricos; p tem forma de halteres; d e f têm lóbulos múltiplos."
+      },
+      {
+        q: "A distribuição de elétrons follows principalmente qual regra de energia?",
+        options: [
+          "Regra de Hund",
+          "Aufbau",
+          "Exclusão de Pauli",
+          "Lei de Avogadro"
+        ],
+        correct: 1,
+        explain: "Aufbau = preenchimento por energia crescente dos orbitais: 1s, 2s, 2p, 3s, 3p, 4s, 3d..."
+      },
+      {
+        q: "Qual regra maximiza o spin em orbitais degenerados antes do emparelhamento?",
+        options: [
+          "Aufbau",
+          "Hund",
+          "Pauli",
+          "Heisenberg"
+        ],
+        correct: 1,
+        explain: "Hund: elétrons entram sozinhos em orbitais de mesma energia antes de formar pares."
+      },
+      {
+        q: "Qual próton corresponde ao Z do hélio?",
+        options: ["1", "2", "3", "8"],
+        correct: 1,
+        explain: "Z=2 define o hélio; tem 2 prótons e normalmente 2 nêutrons no isótopo He-4."
+      },
+      {
+        q: "Qual relação liga massa atômica, número de prótons e nêutrons?",
+        options: [
+          "A = Z × N",
+          "A = Z + N",
+          "Z = A + N",
+          "N = Z × A"
+        ],
+        correct: 1,
+        explain: "A é número de massa; soma de prótons (Z) e nêutrons (N)."
+      },
+      {
+        q: "Qual tipo de liga átomos do mesmo elemento com massas diferentes?",
+        options: ["Isóbaros", "Isótopos", "Isótonos", "Isómeros"],
+        correct: 1,
+        explain: "Isótopos têm mesmo Z e diferentes N, logo massas diferentes: C-12, C-13, C-14."
+      },
+      {
+        q: "Qual ponto do modelo atômico atual descreve a probabilidade de encontrar um elétron?",
+        options: [
+          "Órbita fixa",
+          "Orbital/nuvem eletrônica",
+          "Núcleo",
+          "Camada K"
+        ],
+        correct: 1,
+        explain: "Orbitais são funções de onda cujo quadrado dá densidade de probabilidade, não trajetórias."
+      },
+      {
+        q: "O que são os raios X emitidos quando elétrons acelerados batem em um alvo metálico?",
+        options: [
+          "Radiação nuclear",
+          "Radiação de frenagem (bremsstrahlung)",
+          "Radiação alfa",
+          "Radiação Cherenkov"
+        ],
+        correct: 1,
+        explain: "Desaceleração brusca de elétrons no alvo produz espectro contínuo de raios X."
+      }
+    ]
+  };
+</script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+</body>
+</html>

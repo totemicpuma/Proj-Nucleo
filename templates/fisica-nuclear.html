@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física Nuclear — NÚCLEO</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="module-page">
+
+<div class="wrap">
+
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div>
+        <div class="logo-text">NÚCLEO</div>
+        <div class="logo-sub">PAINEL DE ESTUDOS</div>
+      </div>
+    </div>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      SISTEMA ONLINE — SESSÃO DE ESTUDO ATIVA
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="index.html">ROADMAP</a>
+    <span class="sep">/</span>
+    <span class="current">FÍSICA NUCLEAR</span>
+  </div>
+
+  <!-- INÍCIO DA GRID DE DUAS COLUNAS (Hero) -->
+  <div class="hero" style="padding: 40px 0 0; align-items: start;">
+
+    <!-- COLUNA DA ESQUERDA -->
+    <div>
+      <div class="topic-badge"><span class="dot"></span>MÓDULO 01 · CONCLUÍDO</div>
+      <h1 style="font-size: clamp(38px, 5vw, 64px); margin-bottom: 16px;">Física<br>Nuclear</h1>
+      <p class="topic-intro">
+        Todo o roadmap parte daqui. Antes de entrar em <b>estrutura atômica</b>, <b>radioatividade</b>
+        ou <b>reatores</b>, este módulo estabelece três coisas: o que é energia nuclear e por que ela
+        importa, a relação entre <b>massa e energia</b> (E = mc²), e o conceito de
+        <b>energia de ligação</b> — a razão física pela qual fissão e fusão liberam energia.
+      </p>
+
+      <!-- CONTEÚDO DO MÓDULO (dentro da coluna esquerda, como na estrutura-atômica) -->
+      <div class="topic-body" style="padding-bottom: 0;">
+
+        <!-- SECTION 1 — WHAT IS NUCLEAR ENERGY -->
+        <section class="topic-section">
+          <div class="section-kicker">01 — O QUE É ENERGIA NUCLEAR</div>
+          <h2>Energia de dentro do núcleo</h2>
+          <p>
+            A engenharia nuclear lida com reações que se originam no <b>núcleo do átomo</b> — não na
+            eletrosfera, como na química convencional. Uma única reação nuclear libera, por partícula
+            envolvida, uma quantidade de energia milhões de vezes maior que uma reação química
+            comum, como a queima de combustível fóssil.
+          </p>
+          <p>
+            Essa energia é aproveitada hoje principalmente de três formas: <b>geração de eletricidade</b>
+            em usinas comerciais, <b>propulsão naval</b> (submarinos e porta-aviões usam reatores para
+            operar longos períodos sem reabastecer) e aplicações em <b>medicina</b> e <b>pesquisa</b>,
+            além de uso histórico em sondas espaciais de longa duração.
+          </p>
+        </section>
+
+        <!-- SECTION 2 — GLOBAL & NATIONAL PANORAMA -->
+        <section class="topic-section">
+          <div class="section-kicker">02 — PANORAMA GLOBAL E NACIONAL</div>
+          <h2>Onde a energia nuclear está hoje</h2>
+          <p>
+            Números mudam ano a ano, mas dão a escala real do setor. Os dados abaixo vêm do
+            <b>Power Reactor Information System (PRIS)</b> da IAEA, da <b>World Nuclear Association</b>
+            e, no caso do Brasil, da <b>CNEN</b> e da Eletronuclear.
+          </p>
+
+          <div class="stat-subhead">PANORAMA GLOBAL</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">REATORES EM OPERAÇÃO</div>
+              <div class="stat-value">~440</div>
+              <div class="stat-note">Em mais de 30 países, com capacidade combinada de cerca de 400 GWe.</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">PARTICIPAÇÃO NA ELETRICIDADE MUNDIAL</div>
+              <div class="stat-value">~9%</div>
+              <div class="stat-note">Da eletricidade gerada globalmente em 2024 veio de usinas nucleares.</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">EM CONSTRUÇÃO</div>
+              <div class="stat-value">~80</div>
+              <div class="stat-note">Novos reatores em obras, a maioria na Ásia (China e Índia à frente).</div>
+            </div>
+          </div>
+
+          <div class="stat-subhead">PANORAMA BRASIL — CNEN / ELETRONUCLEAR</div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">USINAS EM OPERAÇÃO</div>
+              <div class="stat-value">Angra 1 e 2</div>
+              <div class="stat-note">640 MW e 1.350 MW, reatores PWR, reguladas pela CNEN em Angra dos Reis (RJ).</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">ANGRA 3</div>
+              <div class="stat-value">~66%</div>
+              <div class="stat-note">Da obra concluída; construção parada desde 2015, retomada ainda em avaliação.</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">PARTICIPAÇÃO NA MATRIZ NACIONAL</div>
+              <div class="stat-value">~1%</div>
+              <div class="stat-note">Da eletricidade brasileira vem de Angra 1 e 2 atualmente.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECTION 3 — MASS-ENERGY EQUIVALENCE -->
+        <section class="topic-section">
+          <div class="section-kicker">03 — MASSA E ENERGIA</div>
+          <h2>E = mc²</h2>
+          <p>
+            A física nuclear depende de uma ideia central da relatividade: massa e energia não são
+            grandezas separadas, mas duas formas da mesma coisa. A energia associada à massa de
+            repouso de uma partícula é dada por <b>E = m₀c²</b>, onde c é a velocidade da luz no vácuo.
+            Isso significa que qualquer processo que reduza a massa total de um sistema — como uma
+            reação nuclear — libera essa diferença como energia.
+          </p>
+
+          <div class="notation-box">
+            <div class="nuclide-symbol" style="font-size:36px;">E = m₀c²</div>
+            <div class="notation-legend">
+              <div class="item"><b>E</b> energia de repouso (J)</div>
+              <div class="item"><b>m₀</b> massa de repouso (kg)</div>
+              <div class="item"><b>c</b> = 2,998×10⁸ m/s — velocidade da luz</div>
+            </div>
+          </div>
+
+          <p style="margin-top:20px;">
+            Como as massas envolvidas em física nuclear são minúsculas, é mais prático trabalhar em
+            <b>elétron-volts (eV)</b>. Um elétron-volt é a energia ganha por um elétron ao atravessar uma
+            diferença de potencial de 1 volt. Nessa escala, a massa de repouso do elétron equivale a
+            cerca de <b>0,511 MeV</b>, e uma unidade de massa atômica (u) equivale a
+            <b>≈ 931,5 MeV</b> — um valor usado o tempo todo em cálculos de reações nucleares.
+          </p>
+        </section>
+
+        <!-- SECTION 4 — BINDING ENERGY -->
+        <section class="topic-section">
+          <div class="section-kicker">04 — DEFEITO DE MASSA E ENERGIA DE LIGAÇÃO</div>
+          <h2>Por que fissão e fusão liberam energia</h2>
+          <p>
+            Se você somar a massa de todos os prótons e nêutrons separados de um núcleo, o total é
+            sempre <b>maior</b> do que a massa do núcleo montado. Essa diferença é o
+            <b>defeito de massa</b>, e — via E = mc² — corresponde exatamente à energia necessária para
+            desmontar o núcleo em seus núcleons. Essa energia é chamada de <b>energia de ligação</b>.
+          </p>
+          <p>
+            O caso mais simples é o dêuteron (¹H + n → ²H): ao se formar, ele libera um fóton de cerca
+            de <b>2,23 MeV</b> — essa é a energia de ligação do núcleo mais simples que existe além do
+            próton isolado.
+          </p>
+
+          <div class="diagram-panel">
+            <svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg">
+              <!-- axes -->
+              <line x1="40" y1="20" x2="40" y2="220" stroke="#223032" stroke-width="1"/>
+              <line x1="40" y1="220" x2="460" y2="220" stroke="#223032" stroke-width="1"/>
+
+              <!-- y gridlines + labels (BE/A in MeV) -->
+              <g font-family="IBM Plex Mono, monospace" font-size="8" fill="#4d5c5a">
+                <line x1="36" y1="220" x2="460" y2="220" stroke="#1a2426" stroke-width="1"/>
+                <line x1="36" y1="178" x2="460" y2="178" stroke="#1a2426" stroke-width="1"/>
+                <line x1="36" y1="136" x2="460" y2="136" stroke="#1a2426" stroke-width="1"/>
+                <line x1="36" y1="94"  x2="460" y2="94"  stroke="#1a2426" stroke-width="1"/>
+                <line x1="36" y1="52"  x2="460" y2="52"  stroke="#1a2426" stroke-width="1"/>
+                <text x="24" y="223" text-anchor="end">0</text>
+                <text x="24" y="181" text-anchor="end">2</text>
+                <text x="24" y="139" text-anchor="end">4</text>
+                <text x="24" y="97"  text-anchor="end">6</text>
+                <text x="24" y="55"  text-anchor="end">8</text>
+              </g>
+
+              <!-- curve: illustrative binding energy per nucleon vs A -->
+              <path d="M 40 220 C 46 180, 50 108, 60 68 C 75 50, 100 36, 134 35 C 170 35, 210 37, 260 41 C 310 45, 360 51, 440 60"
+                    fill="none" stroke="#52c4b0" stroke-width="2"/>
+
+              <!-- peak marker (Fe-56) -->
+              <circle cx="134" cy="35" r="4" fill="#f2a53c"/>
+              <text x="134" y="24" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#f2a53c">Fe-56 (pico)</text>
+
+              <!-- fusion / fission zone labels -->
+              <text x="70" y="240" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#7c8e8c">← FUSÃO libera energia</text>
+              <text x="400" y="240" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#7c8e8c">FISSÃO libera energia →</text>
+
+              <text x="250" y="255" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#4d5c5a" letter-spacing="0.05em">NÚMERO DE MASSA (A)</text>
+              <text x="14" y="120" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#4d5c5a" transform="rotate(-90 14 120)">BE/A (MeV)</text>
+            </svg>
+            <div class="diagram-caption">Curva simplificada e ilustrativa — não usar para cálculos</div>
+          </div>
+
+          <p style="margin-top:20px;">
+            A energia de ligação por núcleon (BE/A) cresce rapidamente para núcleos leves, atinge um
+            pico em torno do <b>ferro-56</b> — o núcleo mais fortemente ligado que existe — e depois
+            decresce lentamente para núcleos pesados. Essa forma de curva explica as duas fontes de
+            energia nuclear: <b>fusão</b> de núcleos leves e <b>fissão</b> de núcleos pesados empurram o
+            sistema em direção ao pico, e a diferença de energia de ligação é liberada no processo.
+          </p>
+        </section>
+
+        <!-- SECTION 5 — NÚCLEO DO CONHECIMENTO PRÁTICO -->
+        <section class="topic-section">
+          <div class="section-kicker">05 — REATORES, APLICAÇÕES E RISCOS</div>
+          <h2>Como a energia nuclear chega à realidade</h2>
+          <p>
+            A física nuclear não existe só em fórmulas: ela aparece em usinas, submarinos,
+            hospitais e satélites. Os conceitos abaixo aparecem diretamente nas questões do quiz
+            e fazem parte do vocabulário mínimo de quem estuda engenharia nuclear.
+          </p>
+
+          <h3>Reação em cadeia e fissão controlada</h3>
+          <p>
+            Quando um núcleo pesado como o <b>urânio-235</b> absorve um nêutron, ele se divide
+            em dois fragmentos e libera energia (~200 MeV) mais nêutrons adicionais. Se pelo menos
+            um desses nêutrons causar outra fissão, temos uma <b>reação em cadeia</b>. Em um reator,
+            isso é mantido estável por <b>barras de controle</b> que absorvem nêutrons em excesso,
+            buscando a multiplicidade crítica k ≈ 1.
+          </p>
+
+          <h3>Moderador</h3>
+          <p>
+            Os nêutrons liberados na fissão são rápidos. Para aumentar a probabilidade de nova fissão
+            no U-235, usamos um <b>moderador</b> — material como água leve, água pesada ou grafite —,
+            que reduz sua velocidade térmica sem absorvê-los.
+          </p>
+
+          <h3>PWR e o parque brasileiro</h3>
+          <p>
+            Os reatores de Angra são do tipo <b>PWR (Pressurized Water Reactor)</b>: o circuito
+            primário pressurizado transfere calor por <b>convecção forçada</b> para o gerador de
+            vapor, sem que a água entre em ebulição. A opção brasileira está ligada à experiência
+            da Marinha com submarinos nucleares e ao domínio operacional nacional.
+          </p>
+
+          <h3>Medicina e PET</h3>
+          <p>
+            Radioisótopos como o <b>FDG</b> emitem <b>pósitrons</b> que, ao se aniquilarem com
+            elétrons, produzem pares de raios gama detectados pelo <b>PET</b>. A mesma física de
+            decaimento nuclear usada em reatores é usada para diagnóstico por imagem.
+          </p>
+
+          <h3>Meia-vida e radioatividade</h3>
+          <p>
+            A <b>meia-vida (T½)</b> é o tempo necessário para que metade dos núcleos de uma amostra
+            radioativa decaiam. Cada radionuclídeo tem sua própria meia-vida, de milissegundos a
+            milhões de anos, e é essa diversidade que permite aplicações em medicina, indústria e
+            datação.
+          </p>
+
+          <h3>Lixo radioativo, descontaminação e segurança</h3>
+          <p>
+            Resíduos de <b>alta atividade</b> permanecem perigosos por milhares de anos e exigem
+            confinamento geológico multicamadas. <b>Descontamaminação</b> remove ou reduz material
+            radioativo de superfícies/equipamentos durante operação ou descomissionamento.
+            A blindagem biológica — concreto, aço e água — reduz a radiação emitida pelo núcleo,
+            enquanto o <b>containment</b> isola o reato.
+          </p>
+
+          <h3>Geração IV e tecnologia avançada</h3>
+          <p>
+            Reatores de <b>quarta geração</b> incluem designs como reatores de sal fundido e módulos
+            pequenos, com <b>segurança passiva</b>, maior eficiência e menor produção de resíduos.
+            <b>Sobrecarga térmica</b> no núcleo pode danificar combustível, gerar hidrogênio e
+            comprometer sistemas, mas não causa diretamente falhas elétricas residenciais.
+          </p>
+
+          <h3>Redes neurais na nuclear</h3>
+          <p>
+            Modelos de <b>redes neurais</b> podem reconstruir distribuições espaciais de potência
+            e temperatura, além de detectar anomalias antes que se tornem falhas — uma aplicação
+            direta de IA em operação nuclear.
+          </p>
+
+          <h3>Energia nuclear e clima</h3>
+          <p>
+            Uma das vantagens mais citadas é a <b>baixa emissão de CO₂</b> durante a operação,
+            contribuindo para descarbonização da matriz. Outras fontes fósseis emitem gases de
+            efeito estufa continuamente.
+          </p>
+        </section>
+
+        <!-- SECTION 6 — PANORAMA BRASILEIRO -->
+        <section class="topic-section">
+          <div class="section-kicker">06 — EVENTOS E REGULAÇÃO</div>
+          <h2>Desastres, órgãos e dados</h2>
+          <p>
+            O primeiro desastre civil notório foi <b>Chernobyl</b> (1986). No Brasil, a
+            <b>CNEN</b> regula e fiscaliza a atividade nuclear, incluindo Angra 1 e 2.
+          </p>
+        </section>
+
+      </div>
+    </div>
+
+    </div>
+
+  </div>
+  <!-- FIM DA GRID DE DUAS COLUNAS -->
+
+  <!-- MINI-ROADMAP DOCK (canto superior direito; hover expande) -->
+  <div class="roadmap-panel" tabindex="0">
+    <div class="roadmap-dock-hint"><span class="dock-mark"></span>ROADMAP</div>
+    <div class="roadmap-head">
+        <div class="roadmap-title">ROADMAP DE ESTUDOS</div>
+        <div class="roadmap-count">10 NÓS</div>
+      </div>
+      <div class="roadmap-sub">clique em um tópico — nós com ↗ abrem o módulo completo</div>
+
+      <svg id="roadmap-svg" data-current="n0" viewBox="0 0 400 585" xmlns="http://www.w3.org/2000/svg">
+        <g id="rm-edges"></g>
+        <g id="rm-nodes"></g>
+      </svg>
+
+      <div class="rm-legend">
+        <span><i class="amber"></i>concluído</span>
+        <span><i class="teal"></i>em andamento</span>
+        <span><i class="locked"></i>bloqueado</span>
+        <span><i class="current"></i>você está aqui</span>
+      </div>
+
+      <div class="rm-info" id="rm-info">
+        <div class="rm-info-title">Selecione um tópico no diagrama<span class="rm-info-status"></span></div>
+        <div class="rm-info-desc">Os detalhes de cada módulo aparecem aqui ao clicar em um nó do roadmap.</div>
+      </div>
+    </div>
+  </div>
+  <!-- FIM DA GRID DE DUAS COLUNAS -->
+
+  <!-- CHAMADA PARA O QUIZ -->
+  <div class="quiz-cta">
+    <div class="quiz-cta-left">
+      <div class="section-kicker">06 — AVALIAÇÃO</div>
+      <h2>Teste o que você aprendeu</h2>
+      <p>
+        8 perguntas sobre o que é energia nuclear, massa-energia, defeito de massa, energia de
+        ligação e o panorama global/nacional do setor. Leva cerca de 5 minutos.
+      </p>
+    </div>
+    <a class="btn-primary quiz-cta-btn" href="quiz-fisica-nuclear.html">Iniciar quiz →</a>
+  </div>
+
+  <div class="reference-block">
+    <b>Referências:</b> LAMARSH, J. R.; BARATTA, A. J. <i>Introduction to Nuclear Engineering</i>.
+    3ª ed. Upper Saddle River: Prentice Hall, 2001. Cap. 1 (Nuclear Engineering) e Cap. 2, seções
+    2.5 (Mass and Energy) e 2.11 (Binding Energy) — base conceitual deste módulo. Dados de
+    panorama: IAEA Power Reactor Information System (PRIS, pris.iaea.org); World Nuclear
+    Association, <i>Nuclear Power in the World Today</i> e <i>Plans for New Reactors Worldwide</i>
+    (2026); Comissão Nacional de Energia Nuclear (CNEN) e Eletronuclear — dados públicos sobre
+    Angra 1, 2 e 3.
+  </div>
+
+  <p style="font-family:'IBM Plex Mono', monospace; font-size:10.5px; color:var(--text-dim); letter-spacing:0.05em; padding: 10px 0 30px;">
+    Use o roadmap no topo da página para navegar entre os módulos.
+  </p>
+
+  <footer>
+    <span>NÚCLEO © 2026</span>
+    <span>PROJETO DE AUTOESTUDO — ENGENHARIA DE COMPUTAÇÃO / IFF</span>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/nucleo-auth.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nav-user.js') }}"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
