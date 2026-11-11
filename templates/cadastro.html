@@ -148,8 +148,11 @@
             body: JSON.stringify({ email, senha }),
           });
           if (lg.ok) {
-            const { token } = await lg.json();
-            localStorage.setItem("nucleo_token", token);
+            const { token, colaborador } = await lg.json();
+            sessionStorage.setItem("nucleo_token", token);
+            if (colaborador) {
+              sessionStorage.setItem("nucleo_user", JSON.stringify(colaborador));
+            }
             window.location.href = "perfil.html";
             return;
           }

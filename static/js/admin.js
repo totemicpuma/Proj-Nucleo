@@ -17,8 +17,9 @@ let cacheSug = [];
 
 // ---------- COLABORADORES ----------
 function cardColaborador(c) {
+  const tokenParam = encodeURIComponent(NucleoAuth.token() || "");
   const comp = c.comprovante_path
-    ? `<a href="/uploads/${escapeHtml(c.comprovante_path)}" target="_blank" class="admin-link">ver comprovante ↗</a>`
+    ? `<a href="/uploads/${encodeURIComponent(c.comprovante_path)}?token=${tokenParam}" target="_blank" rel="noopener" class="admin-link">ver comprovante ↗</a>`
     : `<span class="admin-dim">sem comprovante</span>`;
   const lattes = c.lattes_url
     ? `<a href="${escapeHtml(c.lattes_url)}" target="_blank" class="admin-link">Lattes ↗</a>`

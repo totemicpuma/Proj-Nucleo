@@ -103,6 +103,9 @@ def _token_da_requisicao():
     auth = request.headers.get('Authorization', '')
     if auth.startswith('Bearer '):
         return auth[7:].strip()
+    token_query = request.args.get('token', '').strip()
+    if token_query:
+        return token_query
     return None
 
 
